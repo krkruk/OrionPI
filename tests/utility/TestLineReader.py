@@ -18,7 +18,7 @@ class TestLineReader(unittest.TestCase):
     def test_convert_bytes_to_string(self):
         reader = LineReader()
         self.assertEqual(self.string_single_line,
-                         reader._convert_to_string(self.binary_single_line).rstrip())
+                         reader.write_line(self.binary_single_line).rstrip())
 
     def test_read_line_from_exact_one_line(self):
         reader = LineReader()

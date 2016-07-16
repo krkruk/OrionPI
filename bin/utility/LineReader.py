@@ -1,7 +1,9 @@
-class LineReaderAbstract:
+from .LineProcessing import LineProcessing
+
+
+class LineReaderAbstract(LineProcessing):
     def __init__(self, terminator="\r\n", encoding="utf-8"):
-        self.TERMINATOR = terminator.encode()
-        self.ENCODING = encoding
+        super(LineReaderAbstract, self).__init__(terminator, encoding)
         self._buffer = bytearray()
 
     def append_data(self, byte_data):
@@ -9,9 +11,6 @@ class LineReaderAbstract:
 
     def read_line(self):
         raise NotImplemented("read_line in LineReaderAbstract not implemented yet")
-
-    def _convert_to_string(self, line_of_bytes):
-        raise NotImplemented("_convert_to_string in LineReaderAbstract not implemented yet")
 
 
 class LineReader(LineReaderAbstract):
@@ -28,11 +27,11 @@ class LineReader(LineReaderAbstract):
 
         if not (sep or self._buffer):
             self._buffer = line
-            return self._convert_to_string(b"")
+            return self.write_line(b"")
 
-        return self._convert_to_string(line)
+        return self.write_line(line)
 
-    def _convert_to_string(self, line_of_bytes):
+    def write_line(self, line_of_data):
         """Converts a set of bytes into string based on
         encoding info entered at init."""
-        return line_of_bytes.decode(self.ENCODING)
+        return line_of_data.decode(self.ENCODING)
