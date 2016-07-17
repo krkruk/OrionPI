@@ -26,8 +26,27 @@ class ManipulatorKeysUC:
     WRIST_UP_DOWN = "BaseUpArmMotor"
     WRIST_ROTATION = "GrasperRotationArmMotor"
     GRIPPER_GEOMETRY = "GeometryArmServo"
+    TOP_FINGER = "TOP_FINGER"
+    LEFT_FINGER = "LEFT_FINGER"
+    RIGHT_FINGER = "RIGHT_FINGER"
     GRIPPER_GRASPING = {
-        "TOP_FINGER": "UpArmServo",
-        "LEFT_FINGER": "LeftArmServo",
-        "RIGHT_FINGER": "RightArmServo",
+        TOP_FINGER: "UpArmServo",
+        LEFT_FINGER: "LeftArmServo",
+        RIGHT_FINGER: "RightArmServo"
+    }
+
+
+class ManipulatorDefaultValues:
+    TURRET = 0
+    SHOULDER_LOWER_ACTUATOR = 0
+    ELBOW_UPPER_ACTUATOR = 0
+    WRIST_UP_DOWN = 0
+    WRIST_ROTATION = 0
+    GRIPPER_GEOMETRY = 90
+    FINGER_AVERAGE = "FINGER_AVERAGE"
+    GRIPPER_GRASPING = {
+        ManipulatorKeysUC.TOP_FINGER: 90,
+        ManipulatorKeysUC.LEFT_FINGER: 90,
+        ManipulatorKeysUC.RIGHT_FINGER: 90,
+        FINGER_AVERAGE: 90
     }

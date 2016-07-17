@@ -1,4 +1,5 @@
 from src.bin.Dispatcher.Devices.Propulsion.PropulsionManager import *
+from src.bin.Dispatcher.Devices.Manipulator.ManipulatorManager import *
 from src.bin.Dispatcher.Devices.DeviceAbstract import *
 from src.bin.Dispatcher.UDPReceiver import *
 from src.bin.Dispatcher.Dictionary import *
@@ -24,7 +25,9 @@ class TestController(unittest.TestCase):
         self.simple_json = json.dumps(simple_dict)
         self.system_json = json.dumps(system_dict)
         self.propulsion_json = json.dumps(system_dict[DeviceClass.PROPULSION])
+        self.propulsion_dict = system_dict[DeviceClass.PROPULSION]
         self.manipulator_json = json.dumps(system_dict[DeviceClass.MANIPULATOR])
+        self.manipulator_dict = system_dict[DeviceClass.MANIPULATOR]
 
     def test_udpreceiver_to_data_controller_communication(self):
         controller = DataController(NullDevice(), NullDevice(), NullDevice())
@@ -44,14 +47,16 @@ class TestController(unittest.TestCase):
         propulsion = Propulsion(device_manager=manager)
         controller = DataController(propulsion, NullDevice(), NullDevice())
         controller.acquire_new_data(self.system_json)
-        self.assertEqual(self.propulsion_json, manager.line_sent)
+        propulsion_recvd_dict = json.loads(manager.line_sent)
+        self.assertDictEqual(self.propulsion_dict, propulsion_recvd_dict)
 
     def test_expected_line_handling_manipulator(self):
-        manager = EventlessPropulsionManager(serial_conn={})
-        manipulator = Propulsion(device_manager=manager)
+        manager = EventlessManipulatorManager(serial_conn={})
+        manipulator = Manipulator(device_manager=manager)
         controller = DataController(NullDevice(), manipulator, NullDevice())
         controller.acquire_new_data(self.system_json)
-        self.assertEqual(self.manipulator_json, manager.line_sent)
+        manipulator_recvd_dict = json.loads(manager.line_sent)
+        self.assertDictEqual(self.manipulator_dict, manipulator_recvd_dict)
 
 
 if __name__ == "__main__":
