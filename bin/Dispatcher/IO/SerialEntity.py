@@ -1,9 +1,9 @@
+import src.bin.Dispatcher.utility.LineReader as LineReader
+import src.bin.Dispatcher.utility.LineWriter as LineWriter
 from circuits.io.serial import Serial
-from circuits import handler
 from .IO import IOStream, line_read
+from circuits import handler
 import logging
-import utility.LineReader as LineReader
-import utility.LineWriter as LineWriter
 
 
 class SerialEntity(Serial, IOStream):

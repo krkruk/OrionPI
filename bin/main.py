@@ -1,34 +1,22 @@
-import IO.UDPEntity as UDPEntity
-import IO.SerialEntity as SerialEntity
-from circuits import Component, handler, Debugger
+import src.bin.Dispatcher.UDPReceiver as UDPReceiver
+from src.bin.Dispatcher.Devices.Propulsion.PropulsionManager import Propulsion, PropulsionManager
+from src.bin.Dispatcher.Devices.DeviceAbstract import NullDevice
+from src.bin.Dispatcher.DataController import DataController
+from circuits import BaseComponent, handler, Debugger
+
+udp_conn = {"bind": ("127.0.0.1", 3333), "channel": "UDPServer"}
+mega_conn = {"port": "/dev/ttyACM0", "channel": "propulsion"}
 
 
-class Main(Component):
+class Main(BaseComponent):
     def __init__(self):
         super(Main, self).__init__()
-        self.server = UDPEntity.UDPEntity(("127.0.0.1", 3333), channel="UDPServer").register(self)
-        self.uno = SerialEntity.SerialEntity("/dev/ttyACM0", channel="uno").register(self)
-        self.mega = SerialEntity.SerialEntity("/dev/ttyACM1", channel="mega").register(self)
-
-    def started(self, *args):
-        self.server.write_line("hello!", address=("127.0.0.1", 3333))
-        self.server.write_line(b"bytes!", address=("127.0.0.1", 3333))
-
-    @handler("line_read", channel="UDPServer")
-    def line(self, *args):
-        print("In udp:", *args)
-
-    @handler("line_read", channel="uno")
-    def serial_line(self, *args):
-        print("In Uno: ", *args)
-        self.uno.write_line("My Line")
-
-    @handler("line_read", channel="mega")
-    def mega_line(self, *args):
-        print("In Mega: ", *args)
-        self.mega.write_line("My Line")
+        self.propulsion_manager = PropulsionManager(mega_conn).register(self)
+        self.propulsion = Propulsion(device_manager=self.propulsion_manager)
+        self.controller = DataController(self.propulsion, NullDevice(), NullDevice())
+        self.server = UDPReceiver.UDPReceiver(controller=self.controller,
+                                              udp_conn=udp_conn).register(self)
 
 
 if __name__ == "__main__":
     (Main() + Debugger()).run()
-    # Main().run()

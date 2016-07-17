@@ -8,7 +8,7 @@ class LineWriter(LineProcessing):
     def write_line(self, line_of_data):
         """Converts a line of data into a string of bytes
         ended with TERMINATOR."""
-        line_of_bytes = line_of_data.encode(self.ENCODING)\
+        line_of_bytes = line_of_data.encode(self.ENCODING) \
             if isinstance(line_of_data, str) else line_of_data
         return line_of_bytes \
             if self.TERMINATOR in line_of_bytes else line_of_bytes + self.TERMINATOR

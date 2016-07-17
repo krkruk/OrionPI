@@ -1,4 +1,4 @@
-from bin.utility.LineReader import LineReader
+from src.bin.Dispatcher.utility.LineReader import LineReader
 import unittest
 
 

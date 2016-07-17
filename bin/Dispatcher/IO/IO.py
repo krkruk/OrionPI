@@ -2,7 +2,7 @@ from circuits import Event
 
 
 class line_read(Event):
-    pass
+    """line_read Event"""
 
 
 class IOStream:
@@ -13,6 +13,9 @@ class IOStream:
         raise NotImplemented()
 
     def on_read(self, *args, **kwargs):
+        raise NotImplemented()
+
+    def on_read_line(self, *args, **kwargs):
         raise NotImplemented()
 
     def on_error(self, *args, **kwargs):
