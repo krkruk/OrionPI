@@ -1,4 +1,4 @@
-from src.bin.Dispatcher.IO.IO import IOStream
+from bin.Dispatcher.IO.IO import IOStream
 import json
 
 

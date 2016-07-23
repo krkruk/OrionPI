@@ -1,4 +1,4 @@
-from src.bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator import *
+from bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator import *
 import unittest
 
 

@@ -1,4 +1,4 @@
-from src.bin.Dispatcher.Dictionary import *
+from bin.Dispatcher.Dictionary import *
 
 
 class ManipulatorJSONTranslatorAbstract:

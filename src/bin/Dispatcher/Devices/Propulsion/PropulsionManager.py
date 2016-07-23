@@ -1,5 +1,5 @@
-from src.bin.Dispatcher.IO.SerialEntity import SerialEntity
-from src.bin.Dispatcher.Devices import DeviceAbstract
+from bin.Dispatcher.IO.SerialEntity import SerialEntity
+from bin.Dispatcher.Devices import DeviceAbstract
 from circuits import BaseComponent
 from circuits import handler
 import json

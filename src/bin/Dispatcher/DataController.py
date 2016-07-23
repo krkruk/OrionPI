@@ -1,4 +1,4 @@
-import src.bin.Dispatcher.Dictionary as Dict
+import bin.Dispatcher.Dictionary as Dict
 import json
 
 

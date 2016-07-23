@@ -1,6 +1,6 @@
-from src.bin.Dispatcher.IO.SerialEntity import SerialEntity
-from src.bin.Dispatcher.Devices import DeviceAbstract
-import src.bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator as Translator
+from bin.Dispatcher.IO.SerialEntity import SerialEntity
+from bin.Dispatcher.Devices import DeviceAbstract
+import bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator as Translator
 from circuits import BaseComponent
 from circuits import handler
 import json

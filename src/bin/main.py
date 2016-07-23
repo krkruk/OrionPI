@@ -1,8 +1,8 @@
-from src.bin.Dispatcher.Devices.Manipulator.ManipulatorManager import Manipulator, ManipulatorManager
-from src.bin.Dispatcher.Devices.Propulsion.PropulsionManager import Propulsion, PropulsionManager
-from src.bin.Dispatcher.Devices.DeviceAbstract import NullDevice
-from src.bin.Dispatcher.DataController import DataController
-import src.bin.Dispatcher.UDPReceiver as UDPReceiver
+from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import Manipulator, ManipulatorManager
+from bin.Dispatcher.Devices.Propulsion.PropulsionManager import Propulsion, PropulsionManager
+from bin.Dispatcher.Devices.DeviceAbstract import NullDevice
+from bin.Dispatcher.DataController import DataController
+import bin.Dispatcher.UDPReceiver as UDPReceiver
 from circuits import BaseComponent, handler, Debugger
 
 udp_conn = {"bind": ("127.0.0.1", 3333), "channel": "UDPServer"}

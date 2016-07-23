@@ -2,8 +2,8 @@ from circuits.net.sockets import UDPServer
 from circuits.net.events import error
 from circuits import handler
 from .IO import IOStream, line_read
-from src.bin.Dispatcher.utility import LineReader
-from src.bin.Dispatcher.utility import LineWriter
+from bin.Dispatcher.utility import LineReader
+from bin.Dispatcher.utility import LineWriter
 import logging
 
 

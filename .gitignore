@@ -1,2 +1,5 @@
 #ignore python's cache
 __pycache__
+
+#ignore IDE
+.idea

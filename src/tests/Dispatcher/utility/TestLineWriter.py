@@ -1,4 +1,4 @@
-import src.bin.Dispatcher.utility.LineWriter as LineWriter
+import bin.Dispatcher.utility.LineWriter as LineWriter
 import unittest
 
 

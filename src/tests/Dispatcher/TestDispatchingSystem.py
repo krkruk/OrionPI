@@ -1,8 +1,8 @@
-from src.bin.Dispatcher.Devices.Propulsion.PropulsionManager import *
-from src.bin.Dispatcher.Devices.Manipulator.ManipulatorManager import *
-from src.bin.Dispatcher.Devices.DeviceAbstract import *
-from src.bin.Dispatcher.UDPReceiver import *
-from src.bin.Dispatcher.Dictionary import *
+from bin.Dispatcher.Devices.Propulsion.PropulsionManager import *
+from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import *
+from bin.Dispatcher.Devices.DeviceAbstract import *
+from bin.Dispatcher.UDPReceiver import *
+from bin.Dispatcher.Dictionary import *
 import unittest
 import json
 

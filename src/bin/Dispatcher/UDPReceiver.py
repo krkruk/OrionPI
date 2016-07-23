@@ -1,6 +1,6 @@
 from circuits import BaseComponent, handler
-from src.bin.Dispatcher.IO.UDPEntity import UDPEntity
-from src.bin.Dispatcher.DataController import *
+from bin.Dispatcher.IO.UDPEntity import UDPEntity
+from bin.Dispatcher.DataController import *
 from .IO.IO import IOStream
 
 

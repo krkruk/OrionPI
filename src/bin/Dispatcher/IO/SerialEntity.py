@@ -1,5 +1,5 @@
-import src.bin.Dispatcher.utility.LineReader as LineReader
-import src.bin.Dispatcher.utility.LineWriter as LineWriter
+import bin.Dispatcher.utility.LineReader as LineReader
+import bin.Dispatcher.utility.LineWriter as LineWriter
 from circuits.io.serial import Serial
 from .IO import IOStream, line_read
 from circuits import handler
