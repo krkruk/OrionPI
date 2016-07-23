@@ -3,3 +3,6 @@ __pycache__
 
 #ignore IDE
 .idea
+
+#ignore any settings in *.json
+*.json

@@ -4,6 +4,13 @@ class DeviceClass:
     PERIPHERIES = "CPS"
 
 
+class SettingsKeys:
+    PROPULSION = "PROPULSION"
+    MANIPULATOR = "MANIPULATOR"
+    PERIPHERIES = "PERIPHERIES"
+    UDP = "UDP"
+
+
 class PropulsionKeys:
     LEFT_WHEEL_SPEED = "LWS"
     RIGHT_WHEEL_SPEED = "RWS"
