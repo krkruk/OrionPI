@@ -3,7 +3,6 @@ import bin.Dispatcher.utility.LineWriter as LineWriter
 from circuits.io.serial import Serial
 from .IO import IOStream, line_read
 from circuits import handler
-import logging
 
 
 class SerialEntity(Serial, IOStream):
@@ -37,7 +36,7 @@ class SerialEntity(Serial, IOStream):
 
     @handler("error")
     def on_error(self, *args, **kwargs):
-        logging.error("SERIAL ERROR:", *args)
+        print("SERIAL ERROR:", *args)
 
     def write_line(self, line, *args, **kwargs):
         """Writes a line of bytes and sends it over the serial."""

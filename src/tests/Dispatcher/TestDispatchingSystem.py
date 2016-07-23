@@ -28,6 +28,7 @@ class TestController(unittest.TestCase):
         self.propulsion_dict = system_dict[DeviceClass.PROPULSION]
         self.manipulator_json = json.dumps(system_dict[DeviceClass.MANIPULATOR])
         self.manipulator_dict = system_dict[DeviceClass.MANIPULATOR]
+        self.invalid_json = '{"supposed_to_be_a_right_json": wrong_json'
 
     def test_udpreceiver_to_data_controller_communication(self):
         controller = DataController(NullDevice(), NullDevice(), NullDevice())
@@ -58,6 +59,12 @@ class TestController(unittest.TestCase):
         manipulator_recvd_dict = json.loads(manager.line_sent)
         self.assertDictContainsSubset(self.manipulator_dict, manipulator_recvd_dict, "MSG")
 
+    def test_json_parsing_on_failure_of_dgram(self):
+        manager = EventlessPropulsionManager(serial_conn={})
+        propulsion = Propulsion(device_manager=manager)
+        controller = DataController(propulsion, NullDevice(), NullDevice())
+        controller.acquire_new_data(self.invalid_json)
+        self.assertFalse(propulsion.data)
 
 if __name__ == "__main__":
     unittest.main()

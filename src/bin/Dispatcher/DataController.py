@@ -5,6 +5,7 @@ import json
 class Controller:
     def __init__(self):
         self.recent_line_acquired = ""
+        self.has_parsed_json = False
 
     def acquire_new_data(self, *args, **kwargs):
         try:
@@ -14,9 +15,10 @@ class Controller:
 
         self.recent_line_acquired = line
         self._parse_json()
-        self.handle_propulsion()
-        self.handle_manipulator()
-        self.handle_peripheries()
+        if self.has_parsed_json:
+            self.handle_propulsion()
+            self.handle_manipulator()
+            self.handle_peripheries()
 
     def handle_propulsion(self):
         raise NotImplemented()
@@ -40,7 +42,11 @@ class DataController(Controller):
         self.peripheries = peripheries
 
     def _parse_json(self):
-        self.curr_dict_data = json.loads(self.recent_line_acquired)
+        try:
+            self.curr_dict_data = json.loads(self.recent_line_acquired)
+            self.has_parsed_json = True
+        except json.JSONDecodeError:
+            self.has_parsed_json = False
 
     def handle_propulsion(self):
         propulsion_data = self.curr_dict_data.get(Dict.DeviceClass.PROPULSION, None)
