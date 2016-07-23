@@ -68,27 +68,33 @@ class ManipulatorJSONTranslatorRPiToManipulator(ManipulatorJSONTranslatorAbstrac
 
     def translate_turret(self):
         self.translated[ManipulatorKeysUC.TURRET] \
-            = self.data.get(ManipulatorKeysPC.TURRET, ManipulatorDefaultValues.TURRET)
+            = self.data.get(ManipulatorKeysPC.TURRET,
+                            ManipulatorDefaultValues.TURRET)
 
     def translate_shoulder_lower_actuator(self):
         self.translated[ManipulatorKeysUC.SHOULDER_LOWER_ACTUATOR] \
-            = self.data.get(ManipulatorKeysPC.SHOULDER_LOWER_ACTUATOR, ManipulatorDefaultValues.SHOULDER_LOWER_ACTUATOR)
+            = self.data.get(ManipulatorKeysPC.SHOULDER_LOWER_ACTUATOR,
+                            ManipulatorDefaultValues.SHOULDER_LOWER_ACTUATOR)
 
     def translate_elbow_upper_actuator(self):
         self.translated[ManipulatorKeysUC.ELBOW_UPPER_ACTUATOR] \
-            = self.data.get(ManipulatorKeysPC.ELBOW_UPPER_ACTUATOR, ManipulatorDefaultValues.ELBOW_UPPER_ACTUATOR)
+            = self.data.get(ManipulatorKeysPC.ELBOW_UPPER_ACTUATOR,
+                            ManipulatorDefaultValues.ELBOW_UPPER_ACTUATOR)
 
     def translate_wrist_up_down(self):
         self.translated[ManipulatorKeysUC.WRIST_UP_DOWN] \
-            = self.data.get(ManipulatorKeysPC.WRIST_UP_DOWN, ManipulatorDefaultValues.WRIST_UP_DOWN)
+            = self.data.get(ManipulatorKeysPC.WRIST_UP_DOWN,
+                            ManipulatorDefaultValues.WRIST_UP_DOWN)
 
     def translate_wrist_rotation(self):
         self.translated[ManipulatorKeysUC.WRIST_ROTATION] \
-            = self.data.get(ManipulatorKeysPC.WRIST_ROTATION, ManipulatorDefaultValues.WRIST_ROTATION)
+            = self.data.get(ManipulatorKeysPC.WRIST_ROTATION,
+                            ManipulatorDefaultValues.WRIST_ROTATION)
 
     def translate_gripper_geometry(self):
         self.translated[ManipulatorKeysUC.GRIPPER_GEOMETRY] \
-            = self.data.get(ManipulatorKeysPC.GRIPPER_GEOMETRY, ManipulatorDefaultValues.GRIPPER_GEOMETRY)
+            = self.data.get(ManipulatorKeysPC.GRIPPER_GEOMETRY,
+                            ManipulatorDefaultValues.GRIPPER_GEOMETRY)
 
     def translate_gripper_grasping(self):
         grasping_value \

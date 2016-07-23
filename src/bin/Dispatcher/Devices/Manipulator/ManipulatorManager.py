@@ -13,7 +13,6 @@ class Manipulator(DeviceAbstract.Device):
 
     def handle_data(self, data={}):
         d = self.translator.translate_to_uc(data)
-        print("DATA: ==={}===".format(d))
         return d
 
 

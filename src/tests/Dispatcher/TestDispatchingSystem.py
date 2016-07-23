@@ -14,7 +14,7 @@ system_dict = {
         PropulsionKeys.RIGHT_WHEEL_SPEED: 100
     },
     DeviceClass.MANIPULATOR: {
-        ManipulatorKeysUC.TURRET: -20
+        ManipulatorKeysUC.TURRET: ManipulatorDefaultValues.TURRET
     }
 }
 
@@ -56,7 +56,7 @@ class TestController(unittest.TestCase):
         controller = DataController(NullDevice(), manipulator, NullDevice())
         controller.acquire_new_data(self.system_json)
         manipulator_recvd_dict = json.loads(manager.line_sent)
-        self.assertDictEqual(self.manipulator_dict, manipulator_recvd_dict)
+        self.assertDictContainsSubset(self.manipulator_dict, manipulator_recvd_dict, "MSG")
 
 
 if __name__ == "__main__":
