@@ -37,3 +37,9 @@ class ManipulatorManager(BaseComponent, EventlessManipulatorManager):
     def write_line(self, line, *args, **kwargs):
         self.line_sent = line
         self.device.write_line(self.line_sent)
+
+
+class NullManipulatorManager(BaseComponent, DeviceAbstract.NullDeviceManager):
+    def __init__(self, serial_conn={}):
+        BaseComponent.__init__(self)
+        DeviceAbstract.NullDeviceManager.__init__(self, serial_conn)

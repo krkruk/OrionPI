@@ -31,3 +31,9 @@ class PropulsionManager(BaseComponent, DeviceAbstract.EventlessDeviceManager):
     def write_line(self, line, *args, **kwargs):
         self.line_sent = line
         self.device.write_line(self.line_sent)
+
+
+class NullPropulsionManager(BaseComponent, DeviceAbstract.NullDeviceManager):
+    def __init__(self, serial_conn={}):
+        BaseComponent.__init__(self)
+        DeviceAbstract.NullDeviceManager.__init__(self, serial_conn)
