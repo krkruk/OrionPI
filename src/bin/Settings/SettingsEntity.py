@@ -29,3 +29,9 @@ class SettingsEntity:
 
     def get_settings(self):
         return self.settings if self.settings else self.default_settings
+
+    def __getitem__(self, item):
+        return self.get_entry(item)
+
+    def __setitem__(self, key, value):
+        self.settings[key] = value

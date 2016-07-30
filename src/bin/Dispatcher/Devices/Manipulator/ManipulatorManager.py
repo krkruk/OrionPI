@@ -1,4 +1,5 @@
 from bin.Dispatcher.IO.SerialEntity import SerialEntity
+from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.Devices import DeviceAbstract
 import bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator as Translator
 from circuits import BaseComponent
@@ -17,18 +18,18 @@ class Manipulator(DeviceAbstract.Device):
 
 
 class EventlessManipulatorManager(DeviceAbstract.EventlessDeviceManager):
-    def __init__(self, serial_conn={}):
-        super(EventlessManipulatorManager, self).__init__(serial_conn)
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
+        super(EventlessManipulatorManager, self).__init__(serial_sett_entity)
 
     def on_read_line(self, *args, **kwargs):
         pass
 
 
 class ManipulatorManager(BaseComponent, EventlessManipulatorManager):
-    def __init__(self, serial_conn={}):
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
         BaseComponent.__init__(self)
-        EventlessManipulatorManager.__init__(self, serial_conn)
-        self.device = SerialEntity(**serial_conn).register(self)
+        EventlessManipulatorManager.__init__(self, serial_sett_entity)
+        self.device = SerialEntity(**self.device_conn).register(self)
 
     @handler("line_read", channel="manipulator")
     def on_read_line(self, *args, **kwargs):
@@ -40,6 +41,6 @@ class ManipulatorManager(BaseComponent, EventlessManipulatorManager):
 
 
 class NullManipulatorManager(BaseComponent, DeviceAbstract.NullDeviceManager):
-    def __init__(self, serial_conn={}):
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
         BaseComponent.__init__(self)
-        DeviceAbstract.NullDeviceManager.__init__(self, serial_conn)
+        DeviceAbstract.NullDeviceManager.__init__(self, serial_sett_entity)

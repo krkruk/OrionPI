@@ -43,8 +43,13 @@ class UDPEntity(UDPServer, IOStream):
 
     @handler("error")
     def on_error(self, *args, **kwargs):
-        sock = args[0]
-        err = args[1]
+        try:
+            sock = args[0]
+            err = args[1]
+        except IndexError:
+            sock = ""
+            err = ""
+
         logging.error("UDP ERROR on socket: {}; Err: {}".format(sock, err))
 
     def write_line(self, line, *args, **kwargs):

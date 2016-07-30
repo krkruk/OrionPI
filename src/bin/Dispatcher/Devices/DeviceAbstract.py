@@ -1,3 +1,4 @@
+from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.IO.IO import IOStream
 import json
 
@@ -39,12 +40,11 @@ class Device(DeviceAbstract):
 
 
 class EventlessDeviceManager(IOStream):
-    def __init__(self, serial_conn={}):
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
         self.is_line_sent = False
         self.line_sent = ""
-
-    def on_read_line(self, *args, **kwargs):
-        raise NotImplemented()
+        self.serial_sett_entity = serial_sett_entity
+        self.device_conn = serial_sett_entity.get_settings()
 
     def write_line(self, line, *args, **kwargs):
         self.line_sent = line
@@ -52,8 +52,8 @@ class EventlessDeviceManager(IOStream):
 
 
 class NullDeviceManager(EventlessDeviceManager):
-    def __init__(self, serial_conn={}):
-        super(NullDeviceManager, self).__init__(serial_conn)
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
+        super(NullDeviceManager, self).__init__(serial_sett_entity)
 
     def on_read_line(self, *args, **kwargs):
         pass

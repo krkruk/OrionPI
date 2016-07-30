@@ -42,19 +42,15 @@ class Main(BaseComponent):
         self.settings_manager.add_entity(self.settings_entities)
         self.settings_manager.load()
 
-        propulsion_conn = self.propulsion_settings.get_settings()
-        manipulator_conn = self.manipulator_settings.get_settings()
-        udp_conn = self.udp_settings.get_settings()
-
-        self.propulsion_manager = create_propulsion_manager(propulsion_conn).register(self)
-        self.manipulator_manager = create_manipulator_manager(manipulator_conn).register(self)
+        self.propulsion_manager = create_propulsion_manager(self.propulsion_settings).register(self)
+        self.manipulator_manager = create_manipulator_manager(self.manipulator_settings).register(self)
 
         self.propulsion = Propulsion(device_manager=self.propulsion_manager)
         self.manipulator = Manipulator(device_manager=self.manipulator_manager)
 
         self.controller = DataController(self.propulsion, self.manipulator, NullDevice())
         self.server = UDPReceiver.UDPReceiver(controller=self.controller,
-                                              udp_conn=udp_conn).register(self)
+                                              udp_sett_entity=self.udp_settings).register(self)
 
 
 if __name__ == "__main__":

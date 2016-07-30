@@ -1,4 +1,5 @@
 from bin.Dispatcher.IO.SerialEntity import SerialEntity
+from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.Devices import DeviceAbstract
 from circuits import BaseComponent
 from circuits import handler
@@ -11,18 +12,18 @@ class Propulsion(DeviceAbstract.Device):
 
 
 class EventlessPropulsionManager(DeviceAbstract.EventlessDeviceManager):
-    def __init__(self, serial_conn={}):
-        super(EventlessPropulsionManager, self).__init__(serial_conn)
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
+        super(EventlessPropulsionManager, self).__init__(serial_sett_entity)
 
     def on_read_line(self, *args, **kwargs):
         pass
 
 
 class PropulsionManager(BaseComponent, DeviceAbstract.EventlessDeviceManager):
-    def __init__(self, serial_conn={}):
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
         BaseComponent.__init__(self)
-        DeviceAbstract.EventlessDeviceManager.__init__(self, serial_conn)
-        self.device = SerialEntity(**serial_conn).register(self)
+        DeviceAbstract.EventlessDeviceManager.__init__(self, serial_sett_entity)
+        self.device = SerialEntity(**self.device_conn).register(self)
 
     @handler("line_read", channel="propulsion")
     def on_read_line(self, *args, **kwargs):
@@ -34,6 +35,6 @@ class PropulsionManager(BaseComponent, DeviceAbstract.EventlessDeviceManager):
 
 
 class NullPropulsionManager(BaseComponent, DeviceAbstract.NullDeviceManager):
-    def __init__(self, serial_conn={}):
+    def __init__(self, serial_sett_entity=SettingsEntity("")):
         BaseComponent.__init__(self)
-        DeviceAbstract.NullDeviceManager.__init__(self, serial_conn)
+        DeviceAbstract.NullDeviceManager.__init__(self, serial_sett_entity)

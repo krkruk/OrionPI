@@ -1,5 +1,6 @@
 from bin.Dispatcher.Devices.Propulsion.PropulsionManager import *
 from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import *
+from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.Devices.DeviceAbstract import *
 from bin.Dispatcher.UDPReceiver import *
 from bin.Dispatcher.Dictionary import *
@@ -37,14 +38,14 @@ class TestController(unittest.TestCase):
         self.assertEqual(self.simple_json, controller.recent_line_acquired)
 
     def test_data_handling_to_device(self):
-        manager = EventlessPropulsionManager(serial_conn={})
+        manager = EventlessPropulsionManager(serial_sett_entity=SettingsEntity(""))
         propulsion = Propulsion(device_manager=manager)
         controller = DataController(propulsion, NullDevice(), NullDevice())
         controller.acquire_new_data(self.system_json)
         self.assertTrue(manager.is_line_sent, "Line not sent")
 
     def test_expected_line_handling_propulsion(self):
-        manager = EventlessPropulsionManager(serial_conn={})
+        manager = EventlessPropulsionManager(serial_sett_entity=SettingsEntity(""))
         propulsion = Propulsion(device_manager=manager)
         controller = DataController(propulsion, NullDevice(), NullDevice())
         controller.acquire_new_data(self.system_json)
@@ -52,7 +53,7 @@ class TestController(unittest.TestCase):
         self.assertDictEqual(self.propulsion_dict, propulsion_recvd_dict)
 
     def test_expected_line_handling_manipulator(self):
-        manager = EventlessManipulatorManager(serial_conn={})
+        manager = EventlessManipulatorManager(serial_sett_entity=SettingsEntity(""))
         manipulator = Manipulator(device_manager=manager)
         controller = DataController(NullDevice(), manipulator, NullDevice())
         controller.acquire_new_data(self.system_json)
@@ -60,7 +61,7 @@ class TestController(unittest.TestCase):
         self.assertDictContainsSubset(self.manipulator_dict, manipulator_recvd_dict, "MSG")
 
     def test_json_parsing_on_failure_of_dgram(self):
-        manager = EventlessPropulsionManager(serial_conn={})
+        manager = EventlessPropulsionManager(serial_sett_entity=SettingsEntity(""))
         propulsion = Propulsion(device_manager=manager)
         controller = DataController(propulsion, NullDevice(), NullDevice())
         controller.acquire_new_data(self.invalid_json)
