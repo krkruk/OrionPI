@@ -52,7 +52,7 @@ class SettingsManager(SettingsManagerAbstract):
             data = {}
             for entity in self.entities:
                 data.update(entity.get_settings_entity_dict())
-            file.write(json.dumps(data))
+            json.dump(data, file)
 
     def load(self):
         if not os.path.isfile(self.filename):
@@ -60,11 +60,10 @@ class SettingsManager(SettingsManagerAbstract):
             return
 
         with open(self.filename, 'r', encoding="utf-8") as file:
-            string_data = file.read()
-        try:
-            json_dict = json.loads(string_data)
-        except json.JSONDecodeError:
-            return
+            try:
+                json_dict = json.load(file)
+            except json.JSONDecodeError:
+                return
 
         for entity in self.entities:
             if entity.key in json_dict:
