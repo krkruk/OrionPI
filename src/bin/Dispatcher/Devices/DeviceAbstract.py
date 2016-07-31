@@ -27,7 +27,7 @@ class Device(DeviceAbstract):
 
     def update_data(self, data={}):
         self.data = self.handle_data(data)
-        self.line = json.dumps(self.data)
+        self.line = json.dumps(self.data, separators=(',', ':'))
         self.device_manager.write_line(self.line)
 
     def handle_data(self, data={}):
