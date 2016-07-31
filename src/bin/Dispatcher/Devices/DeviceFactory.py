@@ -1,24 +1,20 @@
-from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import Manipulator, EventlessManipulatorManager, NullManipulatorManager
-from bin.Dispatcher.Devices.Propulsion.PropulsionManager import Propulsion, EventlessPropulsionManager, NullPropulsionManager
-from bin.Dispatcher.Dictionary import SettingsKeys
+from bin.Settings.SettingsEntity import SettingsEntity
 
 
 class DeviceFactoryAbstract:
-    def __init__(self):
-        pass
+    def __init__(self, settings_entity=SettingsEntity("")):
+        self.settings_entity = settings_entity
 
-    def create(self, device_name):
+    def create(self):
+        raise NotImplemented()
+
+    def get_name(self):
         raise NotImplemented()
 
 
-class DeviceFactory(DeviceFactoryAbstract):
-    def __init__(self):
-        DeviceFactoryAbstract.__init__(self)
+class DeviceFactorySerialAbstract(DeviceFactoryAbstract):
+    def __init__(self, settings_entity=SettingsEntity("")):
+        DeviceFactoryAbstract.__init__(self, settings_entity)
 
-    def create(self, device_name):
-        if device_name == SettingsKeys.PROPULSION:
-            return NullPropulsionManager()
-        elif device_name == SettingsKeys.MANIPULATOR:
-            return NullManipulatorManager()
-        else:
-            return None
+    def port_exists(self):
+        raise NotImplemented()
