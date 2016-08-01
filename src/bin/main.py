@@ -1,8 +1,5 @@
-from bin.Dispatcher.Devices.Manipulator.ManipulatorManagerFactory import ManipulatorManagerFactory
-from bin.Dispatcher.Devices.Propulsion.PropulsionManagerFactory import PropulsionManagerFactory
-from bin.Dispatcher.Devices.Manipulator.ManipulatorFactory import ManipulatorFactory
-from bin.Dispatcher.Devices.Propulsion.PropulsionFactory import PropulsionFactory
 from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity
+from bin.Dispatcher.Devices.DeviceWholesale import DeviceWholesale
 from bin.Dispatcher.DataController import DispatchController
 from bin.Dispatcher.Dictionary import SettingsKeys
 import bin.Dispatcher.UDPReceiver as UDPReceiver
@@ -22,13 +19,9 @@ class Main(BaseComponent):
         self.settings_manager.add_entity(self.settings_entities)
         self.settings_manager.load()
 
-        propulsion_manager_factory = PropulsionManagerFactory(self, self.propulsion_settings)
-        manipulator_manager_factory = ManipulatorManagerFactory(self, self.manipulator_settings)
+        device_wholesaler = DeviceWholesale(self, [self.propulsion_settings, self.manipulator_settings])
 
-        self.propulsion = PropulsionFactory(propulsion_manager_factory).create()
-        self.manipulator = ManipulatorFactory(manipulator_manager_factory).create()
-
-        self.controller = DispatchController([self.propulsion, self.manipulator])
+        self.controller = DispatchController(device_wholesaler.sell_all())
         self.server = UDPReceiver.UDPReceiver(controller=self.controller,
                                               udp_sett_entity=self.udp_settings).register(self)
 

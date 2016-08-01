@@ -4,6 +4,9 @@ import json
 
 
 class DeviceAbstract:
+    def __init__(self, device_id):
+        self.id = device_id
+
     def update_data(self, data={}):
         raise NotImplemented()
 
@@ -12,16 +15,22 @@ class DeviceAbstract:
 
 
 class NullDevice(DeviceAbstract):
+    def __init__(self):
+        DeviceAbstract.__init__(self, "NullDevice")
+
     def update_data(self, data={}):
         pass
 
     def handle_data(self, data={}):
         pass
 
+    def __bool__(self):
+        return False
+
 
 class Device(DeviceAbstract):
     def __init__(self, device_id, device_manager):
-        self.id = device_id
+        DeviceAbstract.__init__(self, device_id)
         self.data = {}
         self.line = ""
         self.device_manager = device_manager
