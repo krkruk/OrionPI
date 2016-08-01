@@ -2,6 +2,8 @@ from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import Manipulator, M
 from bin.Dispatcher.Devices.Propulsion.PropulsionManager import Propulsion, PropulsionManager, NullPropulsionManager
 from bin.Dispatcher.Devices.Manipulator.ManipulatorManagerFactory import ManipulatorManagerFactory
 from bin.Dispatcher.Devices.Propulsion.PropulsionManagerFactory import PropulsionManagerFactory
+from bin.Dispatcher.Devices.Manipulator.ManipulatorFactory import ManipulatorFactory
+from bin.Dispatcher.Devices.Propulsion.PropulsionFactory import PropulsionFactory
 from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity
 from bin.Dispatcher.Devices.DeviceAbstract import NullDevice
 from bin.Dispatcher.DataController import DataController
@@ -26,11 +28,8 @@ class Main(BaseComponent):
         propulsion_manager_factory = PropulsionManagerFactory(self, self.propulsion_settings)
         manipulator_manager_factory = ManipulatorManagerFactory(self, self.manipulator_settings)
 
-        self.propulsion_manager = propulsion_manager_factory.create()
-        self.manipulator_manager = manipulator_manager_factory.create()
-
-        self.propulsion = Propulsion(device_manager=self.propulsion_manager)
-        self.manipulator = Manipulator(device_manager=self.manipulator_manager)
+        self.propulsion = PropulsionFactory(propulsion_manager_factory).create()
+        self.manipulator = ManipulatorFactory(manipulator_manager_factory).create()
 
         self.controller = DataController(self.propulsion, self.manipulator, NullDevice())
         self.server = UDPReceiver.UDPReceiver(controller=self.controller,

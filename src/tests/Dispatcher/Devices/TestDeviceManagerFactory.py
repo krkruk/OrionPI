@@ -17,7 +17,7 @@ def add_to_dict(d, key, entry):
     d[key] = entry
 
 
-class TestDeviceFactory(unittest.TestCase):
+class TestDeviceManagerFactory(unittest.TestCase):
     def setUp(self):
         self.propulsion_key = SettingsKeys.PROPULSION
         self.manipulator_key = SettingsKeys.MANIPULATOR
