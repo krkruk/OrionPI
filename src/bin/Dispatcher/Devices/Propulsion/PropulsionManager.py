@@ -1,6 +1,7 @@
 from bin.Dispatcher.IO.SerialEntity import SerialEntity
 from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.Devices import DeviceAbstract
+from bin.Dispatcher.Dictionary import DeviceClass
 from circuits import BaseComponent
 from circuits import handler
 import json
@@ -8,7 +9,7 @@ import json
 
 class Propulsion(DeviceAbstract.Device):
     def __init__(self, device_manager):
-        super(Propulsion, self).__init__(device_manager)
+        super(Propulsion, self).__init__(DeviceClass.PROPULSION, device_manager)
 
 
 class EventlessPropulsionManager(DeviceAbstract.EventlessDeviceManager):

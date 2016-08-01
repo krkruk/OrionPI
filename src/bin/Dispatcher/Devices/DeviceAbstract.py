@@ -20,7 +20,8 @@ class NullDevice(DeviceAbstract):
 
 
 class Device(DeviceAbstract):
-    def __init__(self, device_manager):
+    def __init__(self, device_id, device_manager):
+        self.id = device_id
         self.data = {}
         self.line = ""
         self.device_manager = device_manager
@@ -37,6 +38,9 @@ class Device(DeviceAbstract):
         By default the function returns an unmodified
         value received from EventlessDeviceManager and its children."""
         return data
+
+    def get_id(self):
+        return self.id
 
 
 class EventlessDeviceManager(IOStream):

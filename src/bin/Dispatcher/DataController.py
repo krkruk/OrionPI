@@ -2,7 +2,15 @@ import bin.Dispatcher.Dictionary as Dict
 import json
 
 
-class Controller:
+class ControllerInterface:
+    def acquire_new_data(self, *args, **kwargs):
+        raise NotImplemented()
+
+    def _parse_json(self):
+        raise NotImplemented()
+
+
+class Controller(ControllerInterface):
     def __init__(self):
         self.recent_line_acquired = ""
         self.has_parsed_json = False
@@ -27,9 +35,6 @@ class Controller:
         raise NotImplemented()
 
     def handle_peripheries(self):
-        raise NotImplemented()
-
-    def _parse_json(self):
         raise NotImplemented()
 
 
@@ -62,3 +67,49 @@ class DataController(Controller):
         peripheries_data = self.curr_dict_data.get(Dict.DeviceClass.PERIPHERIES, None)
         if peripheries_data:
             self.peripheries.update_data(peripheries_data)
+
+
+class DispatchController(ControllerInterface):
+    def __init__(self, devices):
+        assert isinstance(devices, list)
+        self.devices = devices
+        self.recent_line_acquired = ""
+        self.has_parsed_json = False
+        self.curr_dict_data = {}
+        self.curr_dict_keys = []
+        self.can_update = False
+
+    def acquire_new_data(self, *args, **kwargs):
+        try:
+            line = args[0]
+        except IndexError:
+            return
+
+        self.recent_line_acquired = line
+        self._parse_json()
+        if self.has_parsed_json:
+            self._handle_devices()
+
+    def _parse_json(self):
+        try:
+            self.curr_dict_data = json.loads(self.recent_line_acquired)
+            self.has_parsed_json = True
+        except json.JSONDecodeError:
+            self.has_parsed_json = False
+
+    def _handle_devices(self):
+        self.curr_dict_keys = self.curr_dict_data.keys()
+        for device in self.devices:
+            device_id = device.get_id()
+            self._verify_device_existence(device_id)
+            self._update_device(device, device_id)
+
+    def _verify_device_existence(self, device_id):
+        if device_id in self.curr_dict_keys:
+            self.can_update = True
+
+    def _update_device(self, device, device_id):
+        curr_data = self.curr_dict_data.get(device_id)
+        if curr_data and self.can_update:
+            device.update_data(curr_data)
+        self.can_update = False

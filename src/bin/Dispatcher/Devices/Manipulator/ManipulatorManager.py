@@ -1,15 +1,15 @@
+import bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator as Translator
 from bin.Dispatcher.IO.SerialEntity import SerialEntity
 from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Dispatcher.Devices import DeviceAbstract
-import bin.Dispatcher.Devices.Manipulator.ManipulatorJSONTranslator as Translator
+from bin.Dispatcher.Dictionary import DeviceClass
 from circuits import BaseComponent
 from circuits import handler
-import json
 
 
 class Manipulator(DeviceAbstract.Device):
     def __init__(self, device_manager):
-        super(Manipulator, self).__init__(device_manager)
+        super(Manipulator, self).__init__(DeviceClass.MANIPULATOR, device_manager)
         self.translator = Translator.ManipulatorJSONTranslatorRPiToManipulator()
 
     def handle_data(self, data={}):
