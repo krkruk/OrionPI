@@ -1,5 +1,6 @@
 from bin.Dispatcher.Devices.Manipulator.ManipulatorFactory import ManipulatorFactory, ManipulatorManagerFactory
 from bin.Dispatcher.Devices.Propulsion.PropulsionFactory import PropulsionFactory, PropulsionManagerFactory
+from bin.Dispatcher.Devices.DeviceFactory import DeviceFactoryAbstract
 from bin.Dispatcher.Devices.DeviceAbstract import NullDevice
 from bin.Dispatcher.Dictionary import SettingsKeys
 
@@ -12,11 +13,30 @@ class DeviceWholesaleAbstract:
         raise NotImplemented()
 
 
+class _CreateDevice:
+    def __init__(self, DeviceFactory, DeviceManagerFactory):
+        assert issubclass(DeviceFactory, DeviceFactoryAbstract)
+        assert issubclass(DeviceManagerFactory, DeviceFactoryAbstract)
+        self.DeviceFactory = DeviceFactory
+        self.DeviceManagerFactory = DeviceManagerFactory
+
+    def create_device(self, base_component, device_settings_entities):
+        if device_settings_entities:
+            device_settings_entity = device_settings_entities.pop(0)
+            return self.DeviceFactory(self.DeviceManagerFactory(
+                base_component, device_settings_entity
+            )).create()
+        else:
+            return NullDevice()
+
+
 class DeviceWholesale(DeviceWholesaleAbstract):
     def __init__(self, base_component, settings_entity_list_of_devices):
         assert isinstance(settings_entity_list_of_devices, list)
         self.settings_of_devices = settings_entity_list_of_devices
         self.base_component = base_component
+        self._propulsion_factory = _CreateDevice(PropulsionFactory, PropulsionManagerFactory)
+        self._manipulator_factory = _CreateDevice(ManipulatorFactory, ManipulatorManagerFactory)
         self.available_products = [
             SettingsKeys.PROPULSION,
             SettingsKeys.MANIPULATOR,
@@ -39,22 +59,13 @@ class DeviceWholesale(DeviceWholesaleAbstract):
 
     def _create_propulsion(self):
         propulsion_settings = self._find_device_settings_entity(SettingsKeys.PROPULSION)
-        if propulsion_settings:
-            propulsion_settings_entity = propulsion_settings.pop(0)
-            return PropulsionFactory(PropulsionManagerFactory(
-                self.base_component, propulsion_settings_entity)).create()
-        else:
-            return NullDevice()
+        return self._propulsion_factory.create_device(
+            self.base_component, propulsion_settings)
 
     def _create_manipulator(self):
         manipulator_settings = self._find_device_settings_entity(SettingsKeys.MANIPULATOR)
-
-        if manipulator_settings:
-            manipulator_settings_entity = manipulator_settings.pop(0)
-            return ManipulatorFactory(ManipulatorManagerFactory(
-                self.base_component, manipulator_settings_entity)).create()
-        else:
-            return NullDevice()
+        return self._manipulator_factory.create_device(
+            self.base_component, manipulator_settings)
 
     def _find_device_settings_entity(self, device_name):
         return [device for device in self.settings_of_devices

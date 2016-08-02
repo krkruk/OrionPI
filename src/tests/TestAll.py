@@ -1,5 +1,6 @@
 from tests.Dispatcher.TestDispatchingSystem import *
 from tests.Dispatcher.Devices.TestDeviceManagerFactory import *
+from tests.Dispatcher.Devices.TestDeviceWholesale import *
 from tests.Dispatcher.Devices.Manipulator.TestManipulatorFactory import *
 from tests.Dispatcher.Devices.Manipulator.TestManipulatorJSONTranslator import *
 from tests.Dispatcher.Devices.Propulsion.TestPropulsionFactory import *
