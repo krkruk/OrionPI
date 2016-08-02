@@ -1,6 +1,7 @@
 import unittest
 from bin.Settings import *
 from bin.Dispatcher.Dictionary import *
+from bin.Settings.SettingsEntity import get_settings_entity_from_list
 
 
 def add_to_dict(d, key, entry):
@@ -59,6 +60,11 @@ class TestSettingsManager(unittest.TestCase):
         manager.load()
         self.assertTrue((self.udp_entity.get_settings_entity_dict() and
                         self.propulsion_entity.get_settings_entity_dict()))
+
+    def test_getting_propulsion_from_entities_list(self):
+        entities = [self.udp_entity, self.propulsion_entity]
+        entity = get_settings_entity_from_list(entities, SettingsKeys.PROPULSION)
+        self.assertEqual(self.propulsion_entity, entity)
 
 
 if __name__ == "__main__":

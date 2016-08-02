@@ -21,3 +21,12 @@ class SettingsUDPEntity(SettingsEntity):
                                 loaded_settings[self.PORT]),
                     self.CHANNEL: loaded_settings[self.CHANNEL]}
         return settings
+
+    def __eq__(self, other):
+        if not isinstance(other, SettingsEntity):
+            return False
+        if (self.key == other.key and self.settings == other.settings and
+                    self.default_settings == other.default_settings):
+            return True
+        else:
+            return False

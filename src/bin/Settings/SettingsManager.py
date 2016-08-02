@@ -52,7 +52,7 @@ class SettingsManager(SettingsManagerAbstract):
             data = {}
             for entity in self.entities:
                 data.update(entity.get_settings_entity_dict())
-            json.dump(data, file)
+            json.dump(data, file, indent=4)
 
     def load(self):
         if not os.path.isfile(self.filename):
@@ -68,3 +68,40 @@ class SettingsManager(SettingsManagerAbstract):
         for entity in self.entities:
             if entity.key in json_dict:
                 entity.add_entries(json_dict[entity.key])
+
+
+class SettingsLoader:
+    def __init__(self, filename, create_parameters):
+        assert isinstance(create_parameters, dict)
+        self.filename = filename
+        self.json_dict_data = {}
+        self.create_parameters = create_parameters
+
+    def load(self):
+        if not self._file_exists():
+            return []
+
+        self.json_dict_data = self._open_file_get_json_dict()
+        return self._split_to_settings_entity()
+
+    def _file_exists(self):
+        return os.path.isfile(self.filename)
+
+    def _open_file_get_json_dict(self):
+        with open(self.filename, 'r', encoding="utf-8") as file:
+            try:
+                return json.load(file)
+            except json.JSONDecodeError:
+                return {}
+
+    def _split_to_settings_entity(self):
+        entities = []
+        for key in self.json_dict_data.keys():
+            entity = self._create_entity(key)
+            entity.add_entries(self.json_dict_data[key].copy())
+            entities.append(entity)
+        return entities
+
+    def _create_entity(self, key):
+        entity_class = self.create_parameters.get(key, SettingsEntity)
+        return entity_class(key)

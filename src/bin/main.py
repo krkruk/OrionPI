@@ -1,4 +1,4 @@
-from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity
+from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity, SettingsLoader
 from bin.Dispatcher.Devices.DeviceWholesale import DeviceWholesale
 from bin.Dispatcher.DataController import DispatchController
 from bin.Dispatcher.Dictionary import SettingsKeys

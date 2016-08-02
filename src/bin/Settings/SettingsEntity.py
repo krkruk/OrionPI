@@ -35,3 +35,20 @@ class SettingsEntity:
 
     def __setitem__(self, key, value):
         self.settings[key] = value
+
+    def __eq__(self, other):
+        if not isinstance(other, SettingsEntity):
+            return False
+        if (self.key == other.key and self.settings == other.settings and
+                    self.default_settings == other.default_settings):
+            return True
+        else:
+            return False
+
+
+def get_settings_entity_from_list(entities, settings_keys_to_find):
+    for entity in entities:
+        if entity.key == settings_keys_to_find:
+            return entity
+    else:
+        return None
