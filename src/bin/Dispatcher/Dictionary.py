@@ -27,19 +27,19 @@ class ManipulatorKeysPC:
 
 
 class ManipulatorKeysUC:
-    TURRET = "RotationArmMotor"
-    SHOULDER_LOWER_ACTUATOR = "BaseDownArmMotor"
-    ELBOW_UPPER_ACTUATOR = "BaseMidArmMotor"
-    WRIST_UP_DOWN = "BaseUpArmMotor"
-    WRIST_ROTATION = "GrasperRotationArmMotor"
-    GRIPPER_GEOMETRY = "GeometryArmServo"
+    TURRET = "TRT"
+    SHOULDER_LOWER_ACTUATOR = "SLA"
+    ELBOW_UPPER_ACTUATOR = "EUA"
+    WRIST_UP_DOWN = "WUD"
+    WRIST_ROTATION = "WRN"
+    GRIPPER_GEOMETRY = "GGY"
     TOP_FINGER = "TOP_FINGER"
     LEFT_FINGER = "LEFT_FINGER"
     RIGHT_FINGER = "RIGHT_FINGER"
     GRIPPER_GRASPING = {
-        TOP_FINGER: "UpArmServo",
-        LEFT_FINGER: "LeftArmServo",
-        RIGHT_FINGER: "RightArmServo"
+        TOP_FINGER: "GGGT",
+        LEFT_FINGER: "GGGL",
+        RIGHT_FINGER: "GGGR"
     }
 
 
