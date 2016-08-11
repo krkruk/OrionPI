@@ -9,6 +9,8 @@ from tests.Dispatcher.Settings.TestSettingsManager import *
 from tests.Dispatcher.Settings.TestSettingsLoader import *
 from tests.Dispatcher.utility.TestLineReader import *
 from tests.Dispatcher.utility.TestLineWriter import *
+from tests.Updater.TestUpdaterTransmissionNegotiation import *
+from tests.Updater.TestDataAssembly import *
 import unittest
 
 
