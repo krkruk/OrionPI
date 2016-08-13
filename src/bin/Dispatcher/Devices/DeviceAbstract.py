@@ -41,7 +41,7 @@ class Device(DeviceAbstract):
         self.device_manager.write_line(self.line)
 
     def handle_data(self, data={}):
-        """Influences the data that is passed into the function.
+        """Influences the data that is _passed into the function.
         It allows modifying the structure of the data
         that is to be sent to the device.
         By default the function returns an unmodified

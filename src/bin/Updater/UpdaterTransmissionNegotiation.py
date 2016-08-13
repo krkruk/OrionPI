@@ -1,5 +1,17 @@
 import json
 import os
+from _ast import arg
+
+
+class NegotiationResultInterface:
+    def set_passed_negotiation(self, boolean):
+        raise NotImplemented()
+
+    def results(self, *args, **kwargs):
+        raise NotImplemented()
+
+    def __bool__(self):
+        raise NotImplemented()
 
 
 class TransmissionNegotiationAbstract:
@@ -14,10 +26,38 @@ class TransmissionNegotiationAbstract:
         raise NotImplemented()
 
 
+class NegotiationResult(NegotiationResultInterface):
+    def __init__(self, dict_results, boolean=False):
+        assert isinstance(dict_results, dict)
+        self._results = dict_results
+        self._passed = boolean
+
+    def set_passed_negotiation(self, boolean):
+        self._passed = boolean
+
+    def results(self, *args, **kwargs):
+        self._assert_keys(*args)
+        return self._get_dict_obj_recursively(self._results, *args)
+
+    def __bool__(self):
+        return self._passed
+
+    def _assert_keys(self, *args):
+        if args:
+            assert len([argument for argument in args
+                        if isinstance(argument, str)]) == len(args)
+
+    def _get_dict_obj_recursively(self, current_dict_value, *args):
+        if args:
+            argument, args = args[0], args[1:]
+            return self._get_dict_obj_recursively(current_dict_value[argument], *args)
+        else:
+            return current_dict_value
+
+
 class TransmissionNegotiation(TransmissionNegotiationAbstract):
     def __init__(self):
         self.trans_cond = {}
-        self.ack_msg = {}
 
     def negotiate(self, transmission_condition):
         self.trans_cond = transmission_condition
@@ -56,12 +96,12 @@ class TransmissionNegotiation(TransmissionNegotiationAbstract):
     def _create_ack_msg(self):
         free_space = self._get_disk_free_space()
         if free_space > self.trans_cond[self.FILE_SIZE]:
-            return {self.ACK: self.trans_cond}
+            return NegotiationResult({self.ACK: self.trans_cond}, True)
         else:
             return self._create_failure_ack_msg("Not enough space")
 
     def _create_failure_ack_msg(self, error_info):
-        return {self.ACK: -1, self.ERROR_INFO: error_info}
+        return NegotiationResult({self.ACK: -1, self.ERROR_INFO: error_info}, False)
 
     def _get_disk_free_space(self):
         statvfs = os.statvfs(os.getcwd())
