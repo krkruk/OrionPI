@@ -12,6 +12,9 @@ class LineReaderAbstract(LineProcessing):
     def read_line(self):
         raise NotImplemented("read_line in LineReaderAbstract not implemented yet")
 
+    def clear(self):
+        raise NotImplemented("clear in LineReaderAbstract not implemented yet")
+
 
 class LineReader(LineReaderAbstract):
     def __init__(self, terminator="\r\n", encoding="utf-8"):
@@ -35,3 +38,6 @@ class LineReader(LineReaderAbstract):
         """Converts a set of bytes into string based on
         encoding info entered at init."""
         return line_of_data.decode(self.ENCODING)
+
+    def clear(self):
+        self._buffer.clear()

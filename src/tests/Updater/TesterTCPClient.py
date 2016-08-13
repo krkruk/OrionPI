@@ -24,7 +24,7 @@ class Send(TCPClient):
     @handler("write_data")
     def on_write_data(self, *args, **kwargs):
         print("Write hello world!!!\n")
-        self.write(b"Hello World\r\n")
+        self.write(b'{"SYN": {"filename": "update.zip", "MD5": "", "filesize": 30}}\r\n')
         Timer(1, disconnect()).register(self)
 
     @handler("disconnect")

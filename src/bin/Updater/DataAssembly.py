@@ -5,6 +5,9 @@ class DataAssemblyInterface:
     def init_assembly_params(self, bytesize, md5sum):
         raise NotImplemented()
 
+    def clear(self):
+        raise NotImplemented()
+
     def append_bytes(self, bytes):
         raise NotImplemented()
 
@@ -28,6 +31,11 @@ class DataAssembly(DataAssemblyInterface):
         self.data.clear()
         self.bytesize = bytesize
         self.md5sum = md5sum
+
+    def clear(self):
+        self.bytesize = 512
+        self.md5sum = ""
+        self.data = bytearray()
 
     def append_bytes(self, bytes):
         self.data.extend(bytes)

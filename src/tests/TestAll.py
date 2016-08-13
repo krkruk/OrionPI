@@ -11,6 +11,7 @@ from tests.Dispatcher.utility.TestLineReader import *
 from tests.Dispatcher.utility.TestLineWriter import *
 from tests.Updater.TestUpdaterTransmissionNegotiation import *
 from tests.Updater.TestDataAssembly import *
+from tests.Updater.TestUpdaterTCPServer import *
 import unittest
 
 

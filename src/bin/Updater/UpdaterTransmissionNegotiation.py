@@ -1,6 +1,5 @@
 import json
 import os
-from _ast import arg
 
 
 class NegotiationResultInterface:
@@ -14,15 +13,16 @@ class NegotiationResultInterface:
         raise NotImplemented()
 
 
-class TransmissionNegotiationAbstract:
-    SYN = "SYN"
-    FILE_NAME = "filename"
-    FILE_SIZE = "filesize"
-    MD5 = "MD5"
-    ACK = "ACK"
-    ERROR_INFO = "error_info"
+class TransmissionNegotiationInterface:
+    """
+    TransmissionNegotiationInterface is a class that gives interfaces for file transfer
+    negotiation terms.
+    """
 
     def negotiate(self, transmission_condition):
+        raise NotImplemented()
+
+    def create_msg_to_host(self, text):
         raise NotImplemented()
 
 
@@ -55,9 +55,47 @@ class NegotiationResult(NegotiationResultInterface):
             return current_dict_value
 
 
-class TransmissionNegotiation(TransmissionNegotiationAbstract):
+class TransmissionNegotiation(TransmissionNegotiationInterface):
+    """
+    TransmissionNegotiation class establishes a protocol the files are exchanged
+    between the computers.
+    The protocol is as follows:
+    * A client sends a synchronization message, which goes as follows:
+        {"SYN": {"filename": _, "filesize": _, "MD5": _}}
+        and optionally info parameter may be appended, however it is not required
+        {"SYN": {"filename": _, "filesize": _, "MD5": _}, "info": _}
+    * A server responds to the synchronization message in the following way:
+        {"ACK": {"filename": _, "filesize": _, "MD5": _}}
+        The values of filename, filesize and md5 are the same as in SYN request.
+
+        A respond of the server depends on free disk space available. If a disk
+        lacks in space the following responds is sent to the client
+        {"ACK": -1, "info": error_info}
+
+        error_info describes a possible origin of an error, whose are:
+        * 'Could not parse negotiation'
+        * 'Not all conditions given'
+        * 'Not enough space'
+
+    If the respond of the server is positive, file transmission may begin.
+    Data handling is done by other classes.
+    """
+
+    SYN = "SYN"
+    FILE_NAME = "filename"
+    FILE_SIZE = "filesize"
+    MD5 = "MD5"
+    ACK = "ACK"
+    INFO = "info"
+
     def __init__(self):
         self.trans_cond = {}
+
+    def create_msg_to_host(self, text):
+        assert isinstance(text, str)
+        msg = {self.INFO: text}
+        msg_json = json.dumps(msg)
+        return msg_json
 
     def negotiate(self, transmission_condition):
         self.trans_cond = transmission_condition
@@ -101,7 +139,7 @@ class TransmissionNegotiation(TransmissionNegotiationAbstract):
             return self._create_failure_ack_msg("Not enough space")
 
     def _create_failure_ack_msg(self, error_info):
-        return NegotiationResult({self.ACK: -1, self.ERROR_INFO: error_info}, False)
+        return NegotiationResult({self.ACK: -1, self.INFO: error_info}, False)
 
     def _get_disk_free_space(self):
         statvfs = os.statvfs(os.getcwd())
