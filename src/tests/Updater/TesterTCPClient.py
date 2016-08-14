@@ -7,6 +7,22 @@ TestUpdaterTCPServer and will be based on Mock objects
 from circuits.net.sockets import TCPClient, connect, disconnect
 from circuits import Debugger, handler, Event
 from circuits import Timer
+import hashlib
+import json
+
+
+data = b"MyData. Hello world!"
+md5_data = hashlib.md5(data).hexdigest()
+data_size = len(data)
+data_dict = {
+    "SYN": {
+        "filename": "update.txt",
+        "filesize": data_size,
+        "MD5": md5_data
+    }
+}
+cmd_json = json.dumps(data_dict) + "\r\n"
+cmd_bin = cmd_json.encode()
 
 
 class Send(TCPClient):
@@ -15,7 +31,6 @@ class Send(TCPClient):
         self.init()
         self.fireEvent(connect("127.0.0.1", 5000))
         Timer(1, Event.create("write_data")).register(self)
-        # Timer(2, Event.create("kill")).register(self)
 
     @handler("connected")
     def on_connected(self, *args, **kwargs):
@@ -23,9 +38,19 @@ class Send(TCPClient):
 
     @handler("write_data")
     def on_write_data(self, *args, **kwargs):
-        print("Write hello world!!!\n")
-        self.write(b'{"SYN": {"filename": "update.zip", "MD5": "", "filesize": 30}}\r\n')
-        Timer(1, disconnect()).register(self)
+        print("Write request!!!", cmd_bin)
+        self.write(cmd_bin)
+
+    @handler("read")
+    def on_read(self, *args):
+        print(args)
+        parsed_data = json.loads(args[0].decode())
+        if parsed_data.get("ACK"):
+            print("Write data!!!", data)
+            self.write(data)
+        if parsed_data.get("info"):
+            print(parsed_data.get("info"))
+            Timer(1, disconnect()).register(self)
 
     @handler("disconnect")
     def on_kill(self, *args, **kwargs):

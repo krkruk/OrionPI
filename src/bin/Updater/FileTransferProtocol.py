@@ -56,6 +56,7 @@ class FileTransferProtocol(FileTransferProtocolInterface):
     def assemble_data(self, raw_data):
         self.data_assembly.append_bytes(raw_data)
         if self.data_assembly.can_read():
+            self._send_info("Data received.")
             self._process_recvd_data()
         elif self._has_more_bytes_than_it_should():
             self._handle_error("To much data. Retry!")
@@ -78,6 +79,10 @@ class FileTransferProtocol(FileTransferProtocolInterface):
             return
 
         self.stdio(ack)
+
+    def _send_info(self, text):
+        info_json = self.negotiator.create_msg_to_host(text)
+        self.stdio(info_json)
 
     def _process_recvd_data(self):
         print(self.data_assembly.read_data())
