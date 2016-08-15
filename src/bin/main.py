@@ -1,4 +1,5 @@
-from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity, SettingsLoader, SettingsUpdaterTCPServer
+from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity, SettingsLoader
+from bin.Settings import SettingsUpdaterTCPServer, SettingsUpdaterEntity
 from bin.Updater.UpdaterTCPServer import UpdaterTCPServer, update_acquired
 from bin.Dispatcher.Devices.DeviceWholesale import DeviceWholesale
 from bin.Dispatcher.DataController import DispatchController
@@ -15,9 +16,11 @@ class Main(BaseComponent):
         self.propulsion_settings = SettingsSerialEntity(SettingsKeys.PROPULSION)
         self.manipulator_settings = SettingsSerialEntity(SettingsKeys.MANIPULATOR)
         self.udp_settings = SettingsUDPEntity(SettingsKeys.UDP)
-        self.tcp_updater_settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER)
+        self.tcp_updater_settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER_SERVER)
+        self.updater_settings = SettingsUpdaterEntity(SettingsKeys.UPDATER)
         self.settings_entities = [self.propulsion_settings, self.manipulator_settings,
-                                  self.udp_settings, self.tcp_updater_settings]
+                                  self.udp_settings, self.tcp_updater_settings,
+                                  self.updater_settings]
 
         self.settings_manager = SettingsManager("settings.json")
         self.settings_manager.add_entity(self.settings_entities)
@@ -33,7 +36,8 @@ class Main(BaseComponent):
 
     @handler("update_acquired")
     def on_update_acquired(self):
-        zip_alg = UpdaterZIP("update.zip")
+        settings = self.updater_settings.get_settings()
+        zip_alg = UpdaterZIP(**settings)
         updater = Updater(zip_alg)
         if updater.update():
             updater.clear_update_file()

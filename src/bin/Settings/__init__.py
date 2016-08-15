@@ -4,3 +4,4 @@ from .SettingsSerialEntity import *
 from .SettingsUDPEntity import *
 from .SettingsManager import *
 from .SettingsUpdaterTCPServer import *
+from .SettingsUpdater import *

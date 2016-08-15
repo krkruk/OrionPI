@@ -109,5 +109,5 @@ if __name__ == "__main__":
     from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
     from bin.Settings.SettingsUpdaterTCPServer import SettingsUpdaterTCPServer
     from bin.Dispatcher.Dictionary import *
-    settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER)
+    settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER_SERVER)
     (Debugger() + UpdaterTCPServer(settings)).run()
