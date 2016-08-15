@@ -1,10 +1,12 @@
 from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity, SettingsLoader, SettingsUpdaterTCPServer
+from bin.Updater.UpdaterTCPServer import UpdaterTCPServer, update_acquired
 from bin.Dispatcher.Devices.DeviceWholesale import DeviceWholesale
 from bin.Dispatcher.DataController import DispatchController
-from bin.Updater.UpdaterTCPServer import UpdaterTCPServer
+from bin.Updater.Updater import UpdaterZIP, Updater
 from bin.Dispatcher.Dictionary import SettingsKeys
 import bin.Dispatcher.UDPReceiver as UDPReceiver
 from circuits import BaseComponent, Debugger
+from circuits import handler
 
 
 class Main(BaseComponent):
@@ -28,6 +30,14 @@ class Main(BaseComponent):
                                               udp_sett_entity=self.udp_settings).register(self)
 
         self.tcp_updater = UpdaterTCPServer(self.tcp_updater_settings).register(self)
+
+    @handler("update_acquired")
+    def on_update_acquired(self):
+        zip_alg = UpdaterZIP("update.zip")
+        updater = Updater(zip_alg)
+        if updater.update():
+            updater.clear_update_file()
+            updater.restart_all()
 
 
 if __name__ == "__main__":

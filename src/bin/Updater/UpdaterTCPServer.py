@@ -7,7 +7,7 @@ from circuits.net.sockets import TCPServer
 from bin.Dispatcher.IO.IO import IOStream
 from bin.Settings import SettingsEntity
 from circuits import handler, Debugger
-from circuits import Event
+from circuits import Event, Timer
 
 
 alias_TN = TransmissionNegotiation
@@ -101,7 +101,7 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
 
     def _fire_event_on_data_received_msg(self, line):
         if "Data received!" in line:
-            self.fireEvent(update_acquired())
+            Timer(1, update_acquired()).register(self)
 
 
 if __name__ == "__main__":

@@ -82,7 +82,8 @@ class Updater(UpdaterInterface):
         self.update_algorithm.erase_update_file()
 
     @staticmethod
-    def restart_all(self):
+    def restart_all():
         interpreter = sys.executable
         app = sys.argv
+        print("restart", interpreter, app)
         os.execl(interpreter, interpreter, *app)
