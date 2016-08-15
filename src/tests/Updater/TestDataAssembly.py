@@ -1,6 +1,6 @@
 from bin.Updater.DataAssembly import *
-import hashlib
 import unittest
+import hashlib
 import random
 
 

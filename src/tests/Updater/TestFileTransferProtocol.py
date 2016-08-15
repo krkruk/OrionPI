@@ -1,9 +1,10 @@
-from bin.Updater.FileTransferProtocol import *
-from bin.Updater.DataAssembly import DataAssembly
-from unittest.mock import MagicMock
 from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor
+from bin.Updater.DataAssembly import DataAssembly
+from bin.Updater.FileTransferProtocol import *
+from unittest.mock import MagicMock
 import unittest
 import hashlib
+
 
 FTP = FileTransferProtocol
 

@@ -1,8 +1,7 @@
 from bin.Updater.FileTransferProtocol import FileTransferProtocol as FTP
-from bin.Updater.UpdaterTCPServer import *
 from bin.Updater.DataAssembly import DataAssembly
-from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
-from unittest.mock import MagicMock, patch
+from bin.Updater.UpdaterTCPServer import *
+from unittest.mock import MagicMock
 import unittest
 import hashlib
 import json

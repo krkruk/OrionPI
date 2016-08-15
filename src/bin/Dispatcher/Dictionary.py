@@ -9,6 +9,7 @@ class SettingsKeys:
     MANIPULATOR = "MANIPULATOR"
     PERIPHERIES = "PERIPHERIES"
     UDP = "UDP"
+    TCP_UPDATER = "TCP_UPDATER"
 
 
 class PropulsionKeys:

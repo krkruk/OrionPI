@@ -1,8 +1,10 @@
-from bin.Updater.UpdaterTransmissionNegotiation import *
-from bin.Updater.DataAssembly import DataAssemblyInterface
 from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessorInterface
+from bin.Updater.DataAssembly import DataAssemblyInterface
 from bin.Dispatcher.utility.LineReader import LineReader
 from bin.Dispatcher.utility.LineWriter import LineWriter
+from bin.Updater.UpdaterTransmissionNegotiation import *
+
+
 alias_TN = TransmissionNegotiation
 
 

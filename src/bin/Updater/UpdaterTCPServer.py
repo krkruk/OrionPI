@@ -1,11 +1,13 @@
 from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiationInterface, TransmissionNegotiation
 from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor, UpdaterDataProcessorInterface
+from bin.Updater.DataAssembly import DataAssemblyInterface, DataAssembly
 from bin.Updater.FileTransferProtocol import FileTransferProtocol
-from bin.Updater.DataAssembly import DataAssemblyInterface
 from bin.Dispatcher.utility.LineWriter import LineWriter
-from bin.Dispatcher.IO.IO import IOStream
 from circuits.net.sockets import TCPServer
+from bin.Dispatcher.IO.IO import IOStream
+from bin.Settings import SettingsEntity
 from circuits import handler, Debugger
+
 
 alias_TN = TransmissionNegotiation
 
@@ -60,19 +62,19 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
         NEGOTIATE = 0
         GET_DATA = 1
 
-    def __init__(self, bind, secure=False, backlog=5000,
-                 bufsize=4096, channel='UpdaterTCPServer',
-                 terminator="\r\n", encoding="utf-8", **kwargs):
-        TCPServer.__init__(self, bind, secure, backlog, bufsize, channel, **kwargs)
+    def __init__(self, tcp_updater_sett_entity=SettingsEntity(""), **kwargs):
+        self.tcp_conn = tcp_updater_sett_entity.get_settings()
+        TCPServer.__init__(self, **self.tcp_conn, **kwargs)
         self.negotiator = TransmissionNegotiation()
         self.data_assembly = DataAssembly()
         self.data_processor = UpdaterDataProcessor()
         self.stdio = self.write_line
         self.stderr = self.on_error
-        EventlessUpdaterTCPServer.__init__(self, bind, self.negotiator, self.data_assembly,
-                                           self.data_processor, self.stdio, self.stderr,
-                                           secure, backlog, bufsize, channel, terminator, encoding,
-                                           **kwargs)
+        EventlessUpdaterTCPServer.__init__(self, negotiator=self.negotiator,
+                                           data_assembly=self.data_assembly,
+                                           data_processor=self.data_processor,
+                                           stdio=self.stdio, stderr=self.stderr,
+                                           **self.tcp_conn, **kwargs)
 
     @handler("connect", channel="UpdaterTCPServer")
     def on_connected(self, *args, **kwargs):

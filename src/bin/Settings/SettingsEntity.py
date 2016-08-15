@@ -52,3 +52,34 @@ def get_settings_entity_from_list(entities, settings_keys_to_find):
             return entity
     else:
         return None
+
+
+class SettingsServerEntity(SettingsEntity):
+    IP = "IP"
+    PORT = "port"
+    CHANNEL = "channel"
+    BIND = "bind"
+
+    def __init__(self, key, dflt_ip, dflt_port, dflt_channel):
+        SettingsEntity.__init__(self, key)
+        self.default_settings = {
+            self.IP: dflt_ip,
+            self.PORT: dflt_port,
+            self.CHANNEL: dflt_channel
+        }
+
+    def get_settings(self):
+        loaded_settings = SettingsEntity.get_settings(self)
+        settings = {self.BIND: (loaded_settings.get(self.IP),
+                                loaded_settings.get(self.PORT)),
+                    self.CHANNEL: loaded_settings.get(self.CHANNEL)}
+        return settings
+
+    def __eq__(self, other):
+        if not isinstance(other, SettingsEntity):
+            return False
+        if (self.key == other.key and self.settings == other.settings and
+                    self.default_settings == other.default_settings):
+            return True
+        else:
+            return False
