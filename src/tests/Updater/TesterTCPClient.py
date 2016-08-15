@@ -25,14 +25,14 @@ cmd_json = json.dumps(data_dict) + "\r\n"
 cmd_bin = cmd_json.encode()
 
 
-with open("test.zip", "br") as file:
+with open("update.zip", "br") as file:
     file_data = file.read()
 
 file_md5 = hashlib.md5(file_data).hexdigest()
 file_size = len(file_data)
 file_dict = {
     "SYN": {
-        "filename": "test.zip",
+        "filename": "update.zip",
         "filesize": file_size,
         "MD5": file_md5
     }
