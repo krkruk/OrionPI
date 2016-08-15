@@ -100,7 +100,7 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
         EventlessUpdaterTCPServer.on_error(self, *args, **kwargs)
 
     def _fire_event_on_data_received_msg(self, line):
-        if "Data received!" in line:
+        if FileTransferProtocol.MSG_DATA_RECVD in line:
             Timer(1, update_acquired()).register(self)
 
 

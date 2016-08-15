@@ -14,6 +14,10 @@ class FileTransferProtocolInterface:
 
 
 class FileTransferProtocol(FileTransferProtocolInterface):
+    MSG_DATA_RECVD = "Data received!"
+    MSG_TOO_MUCH_DATA = "To much data. Retry!"
+    MSG_COULD_NOT_ENCODE = "Could not encode ack!"
+
     class MODE:
         NEGOTIATE = 0
         GET_DATA = 1
@@ -59,10 +63,10 @@ class FileTransferProtocol(FileTransferProtocolInterface):
     def assemble_data(self, raw_data):
         self.data_assembly.append_bytes(raw_data)
         if self.data_assembly.can_read():
-            self._send_info("Data received!")
+            self._send_info(self.MSG_DATA_RECVD)
             self._process_recvd_data()
         elif self._has_more_bytes_than_it_should():
-            self._handle_error("To much data. Retry!")
+            self._handle_error(self.MSG_TOO_MUCH_DATA)
 
     def _parse_negotiation_data(self, data):
         self._line_reader.append_data(data)
@@ -78,7 +82,7 @@ class FileTransferProtocol(FileTransferProtocolInterface):
         try:
             ack = ack if isinstance(ack, str) else json.dumps(ack)
         except json.JSONDecodeError:
-            self._handle_error("Could not encode ack!")
+            self._handle_error(self.MSG_COULD_NOT_ENCODE)
             return
 
         self.stdio(ack)
