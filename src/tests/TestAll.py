@@ -14,6 +14,7 @@ from tests.Updater.TestFileTransferProtocol import *
 from tests.Updater.TestUpdaterDataProcessor import *
 from tests.Updater.TestUpdaterTCPServer import *
 from tests.Updater.TestUpdaterTransmissionNegotiation import *
+from tests.Updater.TestUpdater import *
 import unittest
 
 

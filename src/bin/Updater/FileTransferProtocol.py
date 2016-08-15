@@ -59,7 +59,7 @@ class FileTransferProtocol(FileTransferProtocolInterface):
     def assemble_data(self, raw_data):
         self.data_assembly.append_bytes(raw_data)
         if self.data_assembly.can_read():
-            self._send_info("Data received.")
+            self._send_info("Data received!")
             self._process_recvd_data()
         elif self._has_more_bytes_than_it_should():
             self._handle_error("To much data. Retry!")
@@ -78,7 +78,7 @@ class FileTransferProtocol(FileTransferProtocolInterface):
         try:
             ack = ack if isinstance(ack, str) else json.dumps(ack)
         except json.JSONDecodeError:
-            self._handle_error("Could not encode ack")
+            self._handle_error("Could not encode ack!")
             return
 
         self.stdio(ack)

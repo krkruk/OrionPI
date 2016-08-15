@@ -7,9 +7,14 @@ from circuits.net.sockets import TCPServer
 from bin.Dispatcher.IO.IO import IOStream
 from bin.Settings import SettingsEntity
 from circuits import handler, Debugger
+from circuits import Event
 
 
 alias_TN = TransmissionNegotiation
+
+
+class update_acquired(Event):
+    """Event is fired only if the data was positively acquired"""
 
 
 class EventlessUpdaterTCPServer(IOStream):
@@ -88,13 +93,21 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
         data = EventlessUpdaterTCPServer.write_line(self, line, *args, **kwargs)
         self.write(self.conn_to_sock, data)
 
+        self._fire_event_on_data_received_msg(line)
+
     @handler("error", channel="UpdaterTCPServer")
     def on_error(self, *args, **kwargs):
         EventlessUpdaterTCPServer.on_error(self, *args, **kwargs)
+
+    def _fire_event_on_data_received_msg(self, line):
+        if "Data received!" in line:
+            self.fireEvent(update_acquired())
 
 
 if __name__ == "__main__":
     from bin.Updater.DataAssembly import DataAssembly
     from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
-    bind = ("127.0.0.1", 5000)
-    (Debugger() + UpdaterTCPServer(bind)).run()
+    from bin.Settings.SettingsUpdaterTCPServer import SettingsUpdaterTCPServer
+    from bin.Dispatcher.Dictionary import *
+    settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER)
+    (Debugger() + UpdaterTCPServer(settings)).run()
