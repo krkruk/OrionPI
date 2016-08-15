@@ -1,5 +1,6 @@
 from bin.Updater.UpdaterTransmissionNegotiation import *
-from bin.Updater.DataAssembly import DataAssembly, DataAssemblyInterface
+from bin.Updater.DataAssembly import DataAssemblyInterface
+from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessorInterface
 from bin.Dispatcher.utility.LineReader import LineReader
 from bin.Dispatcher.utility.LineWriter import LineWriter
 alias_TN = TransmissionNegotiation
@@ -17,7 +18,7 @@ class FileTransferProtocol(FileTransferProtocolInterface):
 
     def __init__(self, negotiator=TransmissionNegotiationInterface(),
                  data_assembly=DataAssemblyInterface(),
-                 data_processor=None,
+                 data_processor=UpdaterDataProcessorInterface(),
                  terminator="\r\n", encoding="utf-8",
                  stdio=lambda io: io, stderr=lambda cerr: cerr):
         self._line_reader = LineReader(terminator, encoding)
@@ -85,7 +86,10 @@ class FileTransferProtocol(FileTransferProtocolInterface):
         self.stdio(info_json)
 
     def _process_recvd_data(self):
-        print(self.data_assembly.read_data())
+        raw_data = self.data_assembly.read_data()
+        self.data_processor.process(raw_data)
+        filename = self.ack.results(alias_TN.ACK, alias_TN.FILE_NAME)
+        self.data_processor.save(filename)
         self._reinit()
 
     def _has_more_bytes_than_it_should(self):

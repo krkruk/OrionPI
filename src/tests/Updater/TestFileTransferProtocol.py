@@ -1,5 +1,7 @@
 from bin.Updater.FileTransferProtocol import *
+from bin.Updater.DataAssembly import DataAssembly
 from unittest.mock import MagicMock
+from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor
 import unittest
 import hashlib
 
@@ -12,7 +14,11 @@ class TestFileTransferProtocol(unittest.TestCase):
         self.raddr = ("127.0.0.1", 6000)
         self.negotiator = TransmissionNegotiation()
         self.data_assembly = DataAssembly()
-        self.ftp_algorithm = FileTransferProtocol(self.negotiator, self.data_assembly)
+        self.data_processor = UpdaterDataProcessor()
+        self.data_processor._save_data = MagicMock()
+        self.ftp_algorithm = FileTransferProtocol(self.negotiator,
+                                                  self.data_assembly,
+                                                  self.data_processor)
         self.data_example = b"mydata_test   some random text"
         self.data_md5 = hashlib.md5(self.data_example).hexdigest()
         self.positive_sync_dict = {

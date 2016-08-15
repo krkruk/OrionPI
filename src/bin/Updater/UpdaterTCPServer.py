@@ -1,4 +1,5 @@
 from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiationInterface, TransmissionNegotiation
+from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor, UpdaterDataProcessorInterface
 from bin.Updater.FileTransferProtocol import FileTransferProtocol
 from bin.Updater.DataAssembly import DataAssemblyInterface
 from bin.Dispatcher.utility.LineWriter import LineWriter
@@ -16,7 +17,7 @@ class EventlessUpdaterTCPServer(IOStream):
 
     def __init__(self, bind, negotiator=TransmissionNegotiationInterface(),
                  data_assembly=DataAssemblyInterface(),
-                 data_processor=None,
+                 data_processor=UpdaterDataProcessorInterface(),
                  stdio=lambda io: io,
                  stderr=lambda cerr: cerr,
                  secure=False, backlog=5000, bufsize=4096, channel='UpdaterTCPServer',
@@ -28,7 +29,7 @@ class EventlessUpdaterTCPServer(IOStream):
         self._line_writer = LineWriter(terminator, encoding)
         self.ftp = FileTransferProtocol(self.negotiator,
                                         self.data_assembly,
-                                        data_processor=None,
+                                        data_processor=data_processor,
                                         terminator=terminator,
                                         encoding=encoding,
                                         stdio=stdio,
@@ -59,15 +60,13 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
         NEGOTIATE = 0
         GET_DATA = 1
 
-    def __init__(self, bind,
-                 negotiator=TransmissionNegotiationInterface(),
-                 data_assembly=DataAssemblyInterface(),
-                 secure=False, backlog=5000, bufsize=4096, channel='UpdaterTCPServer',
+    def __init__(self, bind, secure=False, backlog=5000,
+                 bufsize=4096, channel='UpdaterTCPServer',
                  terminator="\r\n", encoding="utf-8", **kwargs):
         TCPServer.__init__(self, bind, secure, backlog, bufsize, channel, **kwargs)
         self.negotiator = TransmissionNegotiation()
         self.data_assembly = DataAssembly()
-        self.data_processor = None
+        self.data_processor = UpdaterDataProcessor()
         self.stdio = self.write_line
         self.stderr = self.on_error
         EventlessUpdaterTCPServer.__init__(self, bind, self.negotiator, self.data_assembly,
@@ -96,6 +95,4 @@ if __name__ == "__main__":
     from bin.Updater.DataAssembly import DataAssembly
     from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
     bind = ("127.0.0.1", 5000)
-    data_assembly = DataAssembly()
-    negotiator = TransmissionNegotiation()
-    (Debugger() + UpdaterTCPServer(bind, negotiator, data_assembly)).run()
+    (Debugger() + UpdaterTCPServer(bind)).run()

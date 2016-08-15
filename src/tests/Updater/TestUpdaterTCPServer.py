@@ -2,7 +2,7 @@ from bin.Updater.FileTransferProtocol import FileTransferProtocol as FTP
 from bin.Updater.UpdaterTCPServer import *
 from bin.Updater.DataAssembly import DataAssembly
 from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
-from unittest.mock import MagicMock, Mock, call
+from unittest.mock import MagicMock, patch
 import unittest
 import hashlib
 import json
@@ -14,7 +14,12 @@ class TestUpdaterTCPServer(unittest.TestCase):
         self.raddr = ("127.0.0.1", 6000)
         self.negotiator = TransmissionNegotiation()
         self.data_assembly = DataAssembly()
-        self.eventless_server = EventlessUpdaterTCPServer(self.bind, self.negotiator, self.data_assembly)
+        self.data_processor = UpdaterDataProcessor()
+        self.data_processor._save_data = MagicMock()
+        self.eventless_server = EventlessUpdaterTCPServer(self.bind,
+                                                          self.negotiator,
+                                                          self.data_assembly,
+                                                          self.data_processor)
         self.data_example = b"mydata_test   some random text"
         self.data_md5 = hashlib.md5(self.data_example).hexdigest()
         self.positive_sync_dict = {
