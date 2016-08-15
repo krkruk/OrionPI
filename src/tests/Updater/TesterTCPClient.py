@@ -25,7 +25,7 @@ cmd_json = json.dumps(data_dict) + "\r\n"
 cmd_bin = cmd_json.encode()
 
 
-with open("update.zip", "br") as file:
+with open("test.zip", "br") as file:
     file_data = file.read()
 
 file_md5 = hashlib.md5(file_data).hexdigest()
