@@ -5,7 +5,7 @@ TestUpdaterTCPServer and will be based on Mock objects
 """
 
 from circuits.net.sockets import TCPClient, connect, disconnect
-from circuits import Debugger, handler, Event
+from circuits import handler, Event
 from circuits import Timer
 import hashlib
 import json

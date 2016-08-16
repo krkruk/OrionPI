@@ -1,7 +1,7 @@
 import pathlib
 import zipfile
-import os
 import sys
+import os
 
 
 class UpdaterAlgorithmInterface:
@@ -85,5 +85,5 @@ class Updater(UpdaterInterface):
     def restart_all():
         interpreter = sys.executable
         app = sys.argv
-        print("restart", interpreter, app)
+        print("restart", interpreter, *app)
         os.execl(interpreter, interpreter, *app)

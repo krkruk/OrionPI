@@ -1,6 +1,8 @@
-from bin.Updater.Updater import *
+from bin.Updater.Updater import UpdaterZIP, Updater
 from unittest.mock import patch, MagicMock
 import unittest
+import pathlib
+import os
 
 
 class TestUpdaterZIP(unittest.TestCase):

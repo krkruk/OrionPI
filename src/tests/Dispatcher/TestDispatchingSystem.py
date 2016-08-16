@@ -1,9 +1,10 @@
-from bin.Dispatcher.Devices.Propulsion.PropulsionManager import *
-from bin.Dispatcher.Devices.Manipulator.ManipulatorManager import *
-from bin.Settings.SettingsEntity import SettingsEntity
-from bin.Dispatcher.Devices.DeviceAbstract import *
-from bin.Dispatcher.UDPReceiver import *
+from bin.Devices.Manipulator import EventlessManipulatorManager, Manipulator
+from bin.Dispatcher.DataController import DataController, DispatchController
+from bin.Devices.Propulsion import EventlessPropulsionManager, Propulsion
+from bin.Dispatcher.UDPReceiver import EventlessUDPReceiver
 from bin.Dispatcher.Dictionary import *
+from bin.Settings import SettingsEntity
+from bin.Devices import NullDevice
 import unittest
 import json
 

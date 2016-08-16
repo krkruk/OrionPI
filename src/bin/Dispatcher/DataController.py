@@ -10,7 +10,7 @@ class ControllerInterface:
         raise NotImplemented()
 
 
-class Controller(ControllerInterface):
+class ControllerAbstract(ControllerInterface):
     def __init__(self):
         self.recent_line_acquired = ""
         self.has_parsed_json = False
@@ -38,7 +38,7 @@ class Controller(ControllerInterface):
         raise NotImplemented()
 
 
-class DataController(Controller):
+class DataController(ControllerAbstract):
     def __init__(self, propulsion, manipulator, peripheries):
         super(DataController, self).__init__()
         self.curr_dict_data = None

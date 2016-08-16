@@ -1,8 +1,11 @@
-from bin.Settings import SettingsManager, SettingsUDPEntity, SettingsSerialEntity, SettingsLoader
-from bin.Settings import SettingsUpdaterTCPServer, SettingsUpdaterEntity
-from bin.Updater.UpdaterTCPServer import UpdaterTCPServer, update_acquired
-from bin.Dispatcher.Devices.DeviceWholesale import DeviceWholesale
+from bin.Settings.SettingsUpdaterTCPServer import SettingsUpdaterTCPServer
+from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
+from bin.Settings.SettingsUpdater import SettingsUpdaterEntity
 from bin.Dispatcher.DataController import DispatchController
+from bin.Settings.SettingsUDPEntity import SettingsUDPEntity
+from bin.Updater.UpdaterTCPServer import UpdaterTCPServer
+from bin.Settings.SettingsManager import SettingsManager
+from bin.Devices.DeviceWholesale import DeviceWholesale
 from bin.Updater.Updater import UpdaterZIP, Updater
 from bin.Dispatcher.Dictionary import SettingsKeys
 import bin.Dispatcher.UDPReceiver as UDPReceiver

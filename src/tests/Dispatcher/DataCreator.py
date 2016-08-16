@@ -1,6 +1,6 @@
-from bin.Dispatcher.Dictionary import SettingsKeys
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
 from bin.Settings.SettingsUDPEntity import SettingsUDPEntity
+from bin.Dispatcher.Dictionary import SettingsKeys
 
 
 def add_to_dict(d, key, entry):

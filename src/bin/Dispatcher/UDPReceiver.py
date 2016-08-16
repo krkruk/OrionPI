@@ -1,12 +1,12 @@
 from bin.Settings.SettingsEntity import SettingsEntity
-from bin.Dispatcher.IO.UDPEntity import UDPEntity
 from circuits import BaseComponent, handler
 from bin.Dispatcher.DataController import *
-from .IO.IO import IOStream
+from bin.IO.UDPEntity import UDPEntity
+from bin.IO import IOStream
 
 
 class EventlessUDPReceiver(IOStream):
-    def __init__(self, controller=Controller(), udp_sett_entity=SettingsEntity(""), **kwargs):
+    def __init__(self, controller=ControllerAbstract(), udp_sett_entity=SettingsEntity(""), **kwargs):
         self._controller = controller
         self.recent_caller_address = tuple()
 
@@ -21,7 +21,7 @@ class EventlessUDPReceiver(IOStream):
 
 
 class UDPReceiver(BaseComponent, EventlessUDPReceiver):
-    def __init__(self, controller=Controller(), udp_sett_entity=SettingsEntity(""), **kwargs):
+    def __init__(self, controller=ControllerAbstract(), udp_sett_entity=SettingsEntity(""), **kwargs):
         BaseComponent.__init__(self)
         EventlessUDPReceiver.__init__(self, controller, udp_sett_entity, **kwargs)
         self.udp_conn = udp_sett_entity.get_settings()

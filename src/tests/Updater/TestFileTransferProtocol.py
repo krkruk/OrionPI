@@ -1,9 +1,11 @@
+from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
+from bin.Updater.UpdaterFileTransferProtocol import FileTransferProtocol
 from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor
-from bin.Updater.DataAssembly import DataAssembly
-from bin.Updater.FileTransferProtocol import *
+from bin.Updater.UpdaterDataAssembly import DataAssembly
 from unittest.mock import MagicMock
 import unittest
 import hashlib
+import json
 
 
 FTP = FileTransferProtocol

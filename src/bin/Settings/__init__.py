@@ -1,7 +1,2 @@
-from .SettingsEntity import *
-from .SettingsManager import *
-from .SettingsSerialEntity import *
-from .SettingsUDPEntity import *
-from .SettingsManager import *
-from .SettingsUpdaterTCPServer import *
-from .SettingsUpdater import *
+from .SettingsEntity import SettingsEntity, SettingsServerEntity
+from .SettingsManager import SettingsManagerAbstract, SettingsManagerMock, SettingsManager, SettingsLoader

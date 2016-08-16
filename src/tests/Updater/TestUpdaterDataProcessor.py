@@ -1,4 +1,4 @@
-from bin.Updater.UpdaterDataProcessor import *
+from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor
 from unittest.mock import patch
 import unittest
 

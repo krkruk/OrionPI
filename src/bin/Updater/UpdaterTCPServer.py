@@ -1,13 +1,13 @@
 from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiationInterface, TransmissionNegotiation
 from bin.Updater.UpdaterDataProcessor import UpdaterDataProcessor, UpdaterDataProcessorInterface
-from bin.Updater.DataAssembly import DataAssemblyInterface, DataAssembly
-from bin.Updater.FileTransferProtocol import FileTransferProtocol
-from bin.Dispatcher.utility.LineWriter import LineWriter
+from bin.Updater.UpdaterDataAssembly import DataAssemblyInterface, DataAssembly
+from bin.Updater.UpdaterFileTransferProtocol import FileTransferProtocol
 from circuits.net.sockets import TCPServer
-from bin.Dispatcher.IO.IO import IOStream
 from bin.Settings import SettingsEntity
 from circuits import handler, Debugger
+from bin.Utility import LineWriter
 from circuits import Event, Timer
+from bin.IO import IOStream
 
 
 alias_TN = TransmissionNegotiation
@@ -105,7 +105,7 @@ class UpdaterTCPServer(TCPServer, EventlessUpdaterTCPServer):
 
 
 if __name__ == "__main__":
-    from bin.Updater.DataAssembly import DataAssembly
+    from bin.Updater.UpdaterDataAssembly import DataAssembly
     from bin.Updater.UpdaterTransmissionNegotiation import TransmissionNegotiation
     from bin.Settings.SettingsUpdaterTCPServer import SettingsUpdaterTCPServer
     from bin.Dispatcher.Dictionary import *

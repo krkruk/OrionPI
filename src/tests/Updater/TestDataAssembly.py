@@ -1,10 +1,10 @@
-from bin.Updater.DataAssembly import *
+from bin.Updater.UpdaterDataAssembly import DataAssembly
 import unittest
 import hashlib
 import random
 
 
-class TestDataAssebly(unittest.TestCase):
+class TestDataAssembly(unittest.TestCase):
     def setUp(self):
         self.data_assembly = DataAssembly()
 

@@ -1,0 +1,2 @@
+from .TestManipulatorFactory import TestManipulatorFactory
+from .TestManipulatorJSONTranslator import TestRPiToManipulatorTranslator

@@ -1,4 +1,4 @@
-from bin.Updater.UpdaterTransmissionNegotiation import *
+from bin.Updater.UpdaterTransmissionNegotiation import NegotiationResult, TransmissionNegotiation
 import unittest
 import json
 
