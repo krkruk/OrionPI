@@ -2,7 +2,6 @@ from bin.Devices.Manipulator import NullManipulatorManager, ManipulatorManager
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
 from bin.Devices.DeviceFactory import DeviceFactorySerialAbstract
 from bin.Settings.SettingsEntity import SettingsEntity
-from bin.Utility.SerialDiscoverer import get_port_name
 
 
 class ManipulatorManagerFactory(DeviceFactorySerialAbstract):

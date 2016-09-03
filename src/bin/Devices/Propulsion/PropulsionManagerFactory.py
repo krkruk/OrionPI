@@ -1,9 +1,7 @@
 from bin.Devices.DeviceFactory import DeviceFactorySerialAbstract
-
 from bin.Devices.Propulsion import PropulsionManager, NullPropulsionManager
 from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
-from bin.Utility.SerialDiscoverer import get_port_name
 
 
 class PropulsionManagerFactory(DeviceFactorySerialAbstract):

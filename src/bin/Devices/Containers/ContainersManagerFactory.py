@@ -1,8 +1,7 @@
 from bin.Devices.DeviceFactory import DeviceFactorySerialAbstract
-from bin.Devices.Containers.ContainersDevice import ContainersDevice, NullContainersDevice
+from bin.Devices.Containers import ContainersManager, NullContainersManager
 from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
-from bin.Utility.SerialDiscoverer import get_port_name
 
 
 class ContainersManagerFactory(DeviceFactorySerialAbstract):
@@ -13,6 +12,6 @@ class ContainersManagerFactory(DeviceFactorySerialAbstract):
 
     def create(self, *args, **kwargs):
         if self.port_exists():
-            return ContainersDevice(self.settings_entity).register(self.base_component)
+            return ContainersManager(self.settings_entity).register(self.base_component)
         else:
-            return NullContainersDevice(self.settings_entity).register(self.base_component)
+            return NullContainersManager(self.settings_entity).register(self.base_component)
