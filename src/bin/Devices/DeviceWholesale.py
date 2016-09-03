@@ -40,7 +40,7 @@ class DeviceWholesale(DeviceWholesaleAbstract):
         self.available_products = [
             SettingsKeys.PROPULSION,
             SettingsKeys.MANIPULATOR,
-            SettingsKeys.PERIPHERIES
+            SettingsKeys.CONTAINERS
         ]
 
     def sell(self, device_name):
@@ -48,14 +48,14 @@ class DeviceWholesale(DeviceWholesaleAbstract):
             return self._create_propulsion()
         elif device_name == SettingsKeys.MANIPULATOR:
             return self._create_manipulator()
-        elif device_name == SettingsKeys.PERIPHERIES:
+        elif device_name == SettingsKeys.CONTAINERS:
             return
         else:
             return NullDevice()
 
     def sell_all(self):
         return [self.sell(device_name) for device_name in self.available_products
-                if device_name != SettingsKeys.PERIPHERIES]
+                if device_name != SettingsKeys.CONTAINERS]
 
     def _create_propulsion(self):
         propulsion_settings = self._find_device_settings_entity(SettingsKeys.PROPULSION)
