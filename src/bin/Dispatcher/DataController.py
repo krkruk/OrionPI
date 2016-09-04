@@ -56,17 +56,17 @@ class DataController(ControllerAbstract):
     def handle_propulsion(self):
         propulsion_data = self.curr_dict_data.get(Dict.DeviceClass.PROPULSION, None)
         if propulsion_data:
-            self.propulsion.update_data(propulsion_data)
+            self.propulsion.update_data_incoming(propulsion_data)
 
     def handle_manipulator(self):
         manipulator_data = self.curr_dict_data.get(Dict.DeviceClass.MANIPULATOR, None)
         if manipulator_data:
-            self.manipulator.update_data(manipulator_data)
+            self.manipulator.update_data_incoming(manipulator_data)
 
     def handle_peripheries(self):
         peripheries_data = self.curr_dict_data.get(Dict.DeviceClass.CONTAINERS, None)
         if peripheries_data:
-            self.peripheries.update_data(peripheries_data)
+            self.peripheries.update_data_incoming(peripheries_data)
 
 
 class DispatchController(ControllerInterface):
@@ -111,5 +111,5 @@ class DispatchController(ControllerInterface):
     def _update_device(self, device, device_id):
         curr_data = self.curr_dict_data.get(device_id)
         if curr_data and self.can_update:
-            device.update_data(curr_data)
+            device.update_data_incoming(curr_data)
         self.can_update = False

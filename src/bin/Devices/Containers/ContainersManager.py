@@ -9,7 +9,13 @@ class EventlessContainersManager(EventlessDeviceManager):
         EventlessDeviceManager.__init__(self, serial_sett_entity)
 
     def on_read_line(self, *args, **kwargs):
-        pass
+        try:
+            line = args[0]
+        except IndexError:
+            return
+
+        if self.device_model:
+            self.device_model.update_data_outcoming(line)
 
 
 class ContainersManager(BaseComponent, EventlessContainersManager):
@@ -20,7 +26,7 @@ class ContainersManager(BaseComponent, EventlessContainersManager):
 
     @handler("line_read", channel="containers")
     def on_read_line(self, *args, **kwargs):
-        pass
+        EventlessContainersManager.on_read_line(self, *args, **kwargs)
 
     def write_line(self, line, *args, **kwargs):
         self.line_sent = line

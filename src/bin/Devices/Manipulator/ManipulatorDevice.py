@@ -8,6 +8,6 @@ class Manipulator(Device):
         super(Manipulator, self).__init__(DeviceClass.MANIPULATOR, device_manager)
         self.translator = ManipulatorJSONTranslatorRPiToManipulator()
 
-    def handle_data(self, data={}):
+    def handle_data_incoming(self, data={}):
         d = self.translator.translate_to_uc(data)
         return d

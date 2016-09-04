@@ -22,7 +22,7 @@ class TestContainerDeviceDataFlow(unittest.TestCase):
 
     def test_eventless_data_flow(self):
         container = ContainersDevice(self.eventless_mgr)
-        container.update_data(self.sample_data)
+        container.update_data_incoming(self.sample_data)
         self.assertDictEqual(self.sample_data, json.loads(self.eventless_mgr.line_sent))
 
     def test_creation_of_containers_device_by_containers_factory(self):

@@ -1,5 +1,7 @@
 from .TestDeviceWholesale import TestDeviceGrossSeller
 from .TestDeviceManagerFactory import TestDeviceManagerFactory
+from .TestContainersReceivingSerialDataAndObserverPattern import TestContainersReceivingSerialDataAndObserverPattern
+from .TestDeviceAbstractObserverPattern import TestDeviceAbstractObserverPattern
 from .Manipulator import *
 from .Propulsion import *
 from .Containers import *
