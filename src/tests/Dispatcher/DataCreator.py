@@ -25,7 +25,7 @@ class CreateDeviceData:
 
         self.containers_serial_port = (SettingsSerialEntity.PORT, "/dev/ttyUSB1")
         self.containers_serial_baudrate = (SettingsSerialEntity.BAUDRATE, 115200)
-        self.containers_serial_channel = (SettingsSerialEntity.CHANNEL, "containers")
+        self.containers_serial_channel = (SettingsSerialEntity.CHANNEL, "manipulator")
 
         self.udp_server_ip = (SettingsUDPEntity.IP, "127.0.0.1")
         self.udp_server_port = (SettingsUDPEntity.PORT, 5000)

@@ -96,3 +96,6 @@ class Device(DeviceAbstract, DeviceObservableAbstract):
 
     def _insert_id_into_data(self, data={}):
         return {self.get_id(): data}
+
+    def __bool__(self):
+        return True

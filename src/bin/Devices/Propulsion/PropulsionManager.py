@@ -10,10 +10,16 @@ class EventlessPropulsionManager(EventlessDeviceManager):
         super(EventlessPropulsionManager, self).__init__(serial_sett_entity)
 
     def on_read_line(self, *args, **kwargs):
-        pass
+        try:
+            line = args[0]
+        except IndexError:
+            return
+
+        if self.device_model:
+            self.device_model.update_data_outcoming(line)
 
 
-class PropulsionManager(BaseComponent, EventlessDeviceManager):
+class PropulsionManager(BaseComponent, EventlessPropulsionManager):
     def __init__(self, serial_sett_entity=SettingsEntity("")):
         BaseComponent.__init__(self)
         EventlessDeviceManager.__init__(self, serial_sett_entity)
@@ -21,7 +27,7 @@ class PropulsionManager(BaseComponent, EventlessDeviceManager):
 
     @handler("line_read", channel="propulsion")
     def on_read_line(self, *args, **kwargs):
-        pass
+        EventlessPropulsionManager.on_read_line(self, *args, **kwargs)
 
     def write_line(self, line, *args, **kwargs):
         self.line_sent = line

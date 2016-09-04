@@ -35,11 +35,13 @@ class Main(BaseComponent):
                                                    self.manipulator_settings,
                                                    self.containers_settings])
 
-        self.controller = DispatchController(device_wholesaler.sell_all())
+        self.devices = device_wholesaler.sell_all()
+        self.controller = DispatchController(self.devices)
         self.server = UDPReceiver.UDPReceiver(controller=self.controller,
                                               udp_sett_entity=self.udp_settings).register(self)
-
         self.tcp_updater = UpdaterTCPServer(self.tcp_updater_settings).register(self)
+
+        self._register_udp_server_as_observer_to_devices()
 
     @handler("update_acquired")
     def on_update_acquired(self):
@@ -49,6 +51,10 @@ class Main(BaseComponent):
         if updater.update():
             updater.clear_update_file()
             updater.restart_all()
+
+    def _register_udp_server_as_observer_to_devices(self):
+        for device in self.devices:
+            device.add_observer(self.server)
 
 
 if __name__ == "__main__":
