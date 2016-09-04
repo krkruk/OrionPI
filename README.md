@@ -10,7 +10,7 @@ Software
 ========
 OrionPI allows controlling a custom made rover only if the user decides to use serial ports.
 
-Data can be sent over internet over UDP and TCP. All commands are standarized. JSON data format is used extensively.
+Data can be sent over internet (UDP and TCP). All commands are standarized. JSON data format is used extensively.
 
 The aim
 =======
