@@ -19,6 +19,7 @@ class Main(BaseComponent):
         self.propulsion_settings = SettingsSerialEntity(SettingsKeys.PROPULSION)
         self.manipulator_settings = SettingsSerialEntity(SettingsKeys.MANIPULATOR)
         self.containers_settings = SettingsSerialEntity(SettingsKeys.CONTAINERS)
+
         self.udp_settings = SettingsUDPEntity(SettingsKeys.UDP)
         self.tcp_updater_settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER_SERVER)
         self.updater_settings = SettingsUpdaterEntity(SettingsKeys.UPDATER)

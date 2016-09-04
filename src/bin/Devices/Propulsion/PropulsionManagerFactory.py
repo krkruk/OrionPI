@@ -1,10 +1,10 @@
-from bin.Devices.DeviceFactory import DeviceFactorySerialAbstract
+from bin.Devices.DeviceFactory import DeviceManagerFactorySerialAbstract
 from bin.Devices.Propulsion import PropulsionManager, NullPropulsionManager
 from bin.Settings.SettingsEntity import SettingsEntity
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
 
 
-class PropulsionManagerFactory(DeviceFactorySerialAbstract):
+class PropulsionManagerFactory(DeviceManagerFactorySerialAbstract):
     def __init__(self, base_component, settings_entity=SettingsEntity("")):
         assert isinstance(settings_entity, SettingsSerialEntity)
         super(PropulsionManagerFactory, self).__init__(settings_entity)

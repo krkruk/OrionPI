@@ -14,7 +14,7 @@ class DeviceFactoryAbstract:
         return self.settings_entity
 
 
-class DeviceFactorySerialAbstract(DeviceFactoryAbstract):
+class DeviceManagerFactorySerialAbstract(DeviceFactoryAbstract):
     def __init__(self, settings_entity=SettingsEntity("")):
         DeviceFactoryAbstract.__init__(self, settings_entity)
         self.port = settings_entity.get_entry(SettingsSerialEntity.PORT)

@@ -1,10 +1,10 @@
 from bin.Devices.Manipulator import NullManipulatorManager, ManipulatorManager
 from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
-from bin.Devices.DeviceFactory import DeviceFactorySerialAbstract
+from bin.Devices.DeviceFactory import DeviceManagerFactorySerialAbstract
 from bin.Settings.SettingsEntity import SettingsEntity
 
 
-class ManipulatorManagerFactory(DeviceFactorySerialAbstract):
+class ManipulatorManagerFactory(DeviceManagerFactorySerialAbstract):
     def __init__(self, base_component, settings_entity=SettingsEntity("")):
         assert isinstance(settings_entity, SettingsSerialEntity)
         super(ManipulatorManagerFactory, self).__init__(settings_entity)
