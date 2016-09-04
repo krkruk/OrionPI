@@ -11,6 +11,7 @@ class CreateDeviceData:
     def __init__(self):
         self.propulsion_key = SettingsKeys.PROPULSION
         self.manipulator_key = SettingsKeys.MANIPULATOR
+        self.containers_key = SettingsKeys.CONTAINERS
         self.udp_key = SettingsKeys.UDP
 
         # key, data
@@ -21,6 +22,10 @@ class CreateDeviceData:
         self.manipulator_serial_port = (SettingsSerialEntity.PORT, "/dev/ttyACM0")
         self.manipulator_serial_baudrate = (SettingsSerialEntity.BAUDRATE, 115200)
         self.manipulator_serial_channel = (SettingsSerialEntity.CHANNEL, "manipulator")
+
+        self.containers_serial_port = (SettingsSerialEntity.PORT, "/dev/ttyUSB1")
+        self.containers_serial_baudrate = (SettingsSerialEntity.BAUDRATE, 115200)
+        self.containers_serial_channel = (SettingsSerialEntity.CHANNEL, "containers")
 
         self.udp_server_ip = (SettingsUDPEntity.IP, "127.0.0.1")
         self.udp_server_port = (SettingsUDPEntity.PORT, 5000)
@@ -37,6 +42,11 @@ class CreateDeviceData:
         add_to_dict(self.manipulator_dict, *self.manipulator_serial_baudrate)
         add_to_dict(self.manipulator_dict, *self.manipulator_serial_channel)
 
+        self.containers_dict = {}
+        add_to_dict(self.containers_dict, *self.containers_serial_port)
+        add_to_dict(self.containers_dict, *self.containers_serial_baudrate)
+        add_to_dict(self.containers_dict, *self.containers_serial_channel)
+
         self.udp_dict = {}
         add_to_dict(self.udp_dict, *self.udp_server_ip)
         add_to_dict(self.udp_dict, *self.udp_server_port)
@@ -51,6 +61,11 @@ class CreateDeviceData:
         manipulator = SettingsSerialEntity(key=self.manipulator_key)
         manipulator.add_entries(self.manipulator_dict)
         return manipulator
+
+    def create_containers_settings_entity(self):
+        containers = SettingsSerialEntity(key=self.containers_key)
+        containers.add_entries(self.containers_dict)
+        return containers
 
     def create_udp_server_settings_entity(self):
         udp_server = SettingsUDPEntity(key=self.udp_key)

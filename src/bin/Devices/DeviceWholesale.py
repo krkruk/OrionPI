@@ -1,5 +1,6 @@
 from bin.Devices.Manipulator.ManipulatorFactory import ManipulatorFactory, ManipulatorManagerFactory
 from bin.Devices.Propulsion.PropulsionFactory import PropulsionFactory, PropulsionManagerFactory
+from bin.Devices.Containers.ContainersFactory import ContainersFactory, ContainersManagerFactory
 from bin.Devices.DeviceFactory import DeviceFactoryAbstract
 from bin.Dispatcher.Dictionary import SettingsKeys
 from bin.Devices.DeviceAbstract import NullDevice
@@ -37,10 +38,11 @@ class DeviceWholesale(DeviceWholesaleAbstract):
         self.base_component = base_component
         self._propulsion_factory = _CreateDevice(PropulsionFactory, PropulsionManagerFactory)
         self._manipulator_factory = _CreateDevice(ManipulatorFactory, ManipulatorManagerFactory)
+        self._containers_factory = _CreateDevice(ContainersFactory, ContainersManagerFactory)
         self.available_products = [
             SettingsKeys.PROPULSION,
             SettingsKeys.MANIPULATOR,
-            SettingsKeys.PERIPHERIES
+            SettingsKeys.CONTAINERS
         ]
 
     def sell(self, device_name):
@@ -48,14 +50,13 @@ class DeviceWholesale(DeviceWholesaleAbstract):
             return self._create_propulsion()
         elif device_name == SettingsKeys.MANIPULATOR:
             return self._create_manipulator()
-        elif device_name == SettingsKeys.PERIPHERIES:
-            return
+        elif device_name == SettingsKeys.CONTAINERS:
+            return self._create_containers()
         else:
             return NullDevice()
 
     def sell_all(self):
-        return [self.sell(device_name) for device_name in self.available_products
-                if device_name != SettingsKeys.PERIPHERIES]
+        return [self.sell(device_name) for device_name in self.available_products]
 
     def _create_propulsion(self):
         propulsion_settings = self._find_device_settings_entity(SettingsKeys.PROPULSION)
@@ -66,6 +67,11 @@ class DeviceWholesale(DeviceWholesaleAbstract):
         manipulator_settings = self._find_device_settings_entity(SettingsKeys.MANIPULATOR)
         return self._manipulator_factory.create_device(
             self.base_component, manipulator_settings)
+
+    def _create_containers(self):
+        containers_settings = self._find_device_settings_entity(SettingsKeys.CONTAINERS)
+        return self._containers_factory.create_device(
+            self.base_component, containers_settings)
 
     def _find_device_settings_entity(self, device_name):
         return [device for device in self.settings_of_devices

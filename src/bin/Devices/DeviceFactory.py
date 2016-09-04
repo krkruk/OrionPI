@@ -1,4 +1,6 @@
 from bin.Settings.SettingsEntity import SettingsEntity
+from bin.Settings.SettingsSerialEntity import SettingsSerialEntity
+from bin.Utility.SerialDiscoverer import get_port_name
 
 
 class DeviceFactoryAbstract:
@@ -12,15 +14,19 @@ class DeviceFactoryAbstract:
         return self.settings_entity
 
 
-class DeviceFactorySerialAbstract(DeviceFactoryAbstract):
+class DeviceManagerFactorySerialAbstract(DeviceFactoryAbstract):
     def __init__(self, settings_entity=SettingsEntity("")):
         DeviceFactoryAbstract.__init__(self, settings_entity)
+        self.port = settings_entity.get_entry(SettingsSerialEntity.PORT)
 
     def port_exists(self):
-        raise NotImplemented()
+        port = get_port_name(self.port)
+        self.settings_entity.add_entry(SettingsSerialEntity.PORT, port)
+        return port
 
     def get_name(self):
-        raise NotImplemented()
+        return "Factory of {} @port: {}".format(
+            self.__class__.__name__, self.port_exists())
 
 
 class DeviceFactory(DeviceFactoryAbstract):

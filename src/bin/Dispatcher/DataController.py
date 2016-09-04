@@ -64,7 +64,7 @@ class DataController(ControllerAbstract):
             self.manipulator.update_data(manipulator_data)
 
     def handle_peripheries(self):
-        peripheries_data = self.curr_dict_data.get(Dict.DeviceClass.PERIPHERIES, None)
+        peripheries_data = self.curr_dict_data.get(Dict.DeviceClass.CONTAINERS, None)
         if peripheries_data:
             self.peripheries.update_data(peripheries_data)
 

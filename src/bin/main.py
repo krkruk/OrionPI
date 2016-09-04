@@ -18,18 +18,22 @@ class Main(BaseComponent):
         super(Main, self).__init__()
         self.propulsion_settings = SettingsSerialEntity(SettingsKeys.PROPULSION)
         self.manipulator_settings = SettingsSerialEntity(SettingsKeys.MANIPULATOR)
+        self.containers_settings = SettingsSerialEntity(SettingsKeys.CONTAINERS)
+
         self.udp_settings = SettingsUDPEntity(SettingsKeys.UDP)
         self.tcp_updater_settings = SettingsUpdaterTCPServer(SettingsKeys.TCP_UPDATER_SERVER)
         self.updater_settings = SettingsUpdaterEntity(SettingsKeys.UPDATER)
         self.settings_entities = [self.propulsion_settings, self.manipulator_settings,
                                   self.udp_settings, self.tcp_updater_settings,
-                                  self.updater_settings]
+                                  self.updater_settings, self.containers_settings]
 
         self.settings_manager = SettingsManager("settings.json")
         self.settings_manager.add_entity(self.settings_entities)
         self.settings_manager.load()
 
-        device_wholesaler = DeviceWholesale(self, [self.propulsion_settings, self.manipulator_settings])
+        device_wholesaler = DeviceWholesale(self, [self.propulsion_settings,
+                                                   self.manipulator_settings,
+                                                   self.containers_settings])
 
         self.controller = DispatchController(device_wholesaler.sell_all())
         self.server = UDPReceiver.UDPReceiver(controller=self.controller,

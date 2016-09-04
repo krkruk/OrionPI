@@ -26,7 +26,7 @@ class TestSettingsLoader(unittest.TestCase):
             SettingsKeys.PROPULSION: SettingsSerialEntity,
             SettingsKeys.MANIPULATOR: SettingsSerialEntity,
             SettingsKeys.UDP: SettingsUDPEntity,
-            SettingsKeys.PERIPHERIES: SettingsSerialEntity
+            SettingsKeys.CONTAINERS: SettingsSerialEntity
         }
         self.loader = SettingsLoader("test_settings.json", self.loader_params)
         self.loader._file_exists = MagicMock(return_value=True)
