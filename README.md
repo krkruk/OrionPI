@@ -15,7 +15,7 @@ Data can be sent over internet (UDP and TCP). All commands are standarized. JSON
 The aim
 =======
 OrionPI is software written for Orion Project - a Mars Rover.
-More info https://www.facebook.com/orion.pollub projektorion.pl
+More info [**https://www.facebook.com/orion.pollub**](Facebook), [**http://projektorion.pl/**] website
 
 License
 =======
